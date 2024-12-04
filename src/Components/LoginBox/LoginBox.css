@@ -1,0 +1,26 @@
+.LoginBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vh;
+}
+
+.LoginBox .MuiButtonBase-root{
+    margin: 10px;
+}
+.LoginBox .MuiFormControl-root {
+    font-size: 50pt;
+    padding:8px;
+
+
+}
+.LoginBox .MuiCard-root{
+    justify-content: space-between;
+    padding-bottom: 30px;
+
+}
+
+.LoginBox .MuiFormControlLabel-root{
+padding-right: 30px
+}
