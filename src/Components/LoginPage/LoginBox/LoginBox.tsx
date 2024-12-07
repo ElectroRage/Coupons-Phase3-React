@@ -12,8 +12,9 @@ import {
     TextField
 } from "@mui/material";
 import {ChangeEvent, useState} from "react";
-import authService from "../../Services/AuthService";
+import authService from "../../../Services/AuthService";
 import {NavLink, useNavigate} from "react-router-dom";
+import {User} from "../../../Models/User";
 
 
 export function LoginBox(): JSX.Element {
@@ -21,10 +22,10 @@ export function LoginBox(): JSX.Element {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("");
-    const [role, setRole] = useState<string>("Customer");
+    const [clientType, setClientType] = useState<string>("Customer");
 
-    function handleRoleChange(event: SelectChangeEvent<string>) {
-        setRole(event.target.value)
+    function handleClientType(event: SelectChangeEvent<string>) {
+        setClientType(event.target.value)
     }
 
     function handleEmail(event: ChangeEvent<HTMLInputElement>) {
@@ -39,10 +40,11 @@ export function LoginBox(): JSX.Element {
 
     function sendRequest(event: React.FormEvent) {
         event.preventDefault();
-        authService.login(email, password, role)
+        const user = new User(email, password, clientType)
+        authService.login(user)
             .then(token => {
                 localStorage.token = token;
-                navigate("/")
+                navigate("/" + clientType.toLowerCase() + "panel");
             })
             .catch(err => alert("ERROR! " + err.response.data));
     }
@@ -52,7 +54,7 @@ export function LoginBox(): JSX.Element {
         <div className="LoginBox">
             {localStorage.getItem("token") !== null && localStorage.getItem("token")!.includes("Bearer") ?
                 <div>
-                <h3>You're already logged in...</h3>
+                    <h3>You're already logged in...</h3>
                     needs to redirect or have logout option
                 </div>
                 :
@@ -63,7 +65,7 @@ export function LoginBox(): JSX.Element {
                             <TextField required onChange={handleEmail} placeholder="Email*" type="email"/><br/>
                             <TextField required onChange={handlePassword} placeholder="Password*" type="password"/><br/>
                             <FormControlLabel control={<Checkbox/>} label="Remember me"/>
-                            <Select value={role} onChange={handleRoleChange}>
+                            <Select value={clientType} onChange={handleClientType}>
                                 <MenuItem value="" disabled>Account Type</MenuItem>
                                 <MenuItem value="Administrator">Administrator</MenuItem>
                                 <MenuItem value="Company">Company</MenuItem>

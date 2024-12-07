@@ -3,7 +3,7 @@ import {Company} from "./Company";
 export class Coupon {
 
     id: number;
-    company: Company;
+    company: number;
     category: string;
     title: string;
     Description: string;
@@ -14,7 +14,7 @@ export class Coupon {
     image: string;
 
 
-    constructor(id: number, company: Company, category: string, title: string,
+    constructor(id: number, company: number, category: string, title: string,
                 Description: string, startDate: Date, endDate: Date, amount: number, price: number, image: string) {
         this.id = id;
         this.company = company;

@@ -1,8 +1,9 @@
-export class Company{
-    id:number;
-    name:string;
-    email:string;
-    password:string;
+export class Company {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+
 
     constructor(id: number, name: string, email: string, password: string) {
         this.id = id;
@@ -10,4 +11,6 @@ export class Company{
         this.email = email;
         this.password = password;
     }
+
+
 }

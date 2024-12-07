@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios"
+
+
+axios.interceptors.request.use(function (config) {
+    if(localStorage.token)
+        config.headers.Authorization = "Bearer " + localStorage.token;
+    return config;
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

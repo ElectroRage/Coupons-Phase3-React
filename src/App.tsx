@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import {LoginBox} from "./Components/LoginBox/LoginBox";
+import {LoginBox} from "./Components/LoginPage/LoginBox/LoginBox";
 import {Header} from "./Components/Layout-Section/Header/Header";
-import {LoginArea} from "./Components/LoginArea/LoginArea";
+import {LoginArea} from "./Components/LoginPage/LoginArea/LoginArea";
 import {PageLayout} from "./Components/Layout-Section/PageLayout/PageLayout";
 import {BrowserRouter} from "react-router-dom";
 import {Router} from "./Components/Router/Router";
