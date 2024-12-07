@@ -20,16 +20,17 @@ export function AllCompanysComp(): JSX.Element {
     }, []);
 
 
+    console.log(companies)
     return (
         <div className="AllCompanysComp">
-            <Accordion sx={{width:"70%", margin:"10px"}}>
+            <Accordion sx={{width: "70%", margin: "10px"}}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon/>}
                     aria-controls="panel1-content">
                     <h3>All Companies</h3>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {companies.length > 0 ? companies.map(c =>
+                    {companies.length > 0 ? companies.map((c) =>
                         <CompanyCard key={c.id} company={c}/>) : <p>Loading Data...</p>}
                 </AccordionDetails>
             </Accordion>
