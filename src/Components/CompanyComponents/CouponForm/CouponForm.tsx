@@ -62,18 +62,18 @@ export function CouponForm(): JSX.Element {
         console.log(event.target.value)
     }
 
-    function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
-        event.preventDefault()
-        const coupon = new Coupon(0,company!,category,title,
-            description,new Date(start),new Date(end),amount,price,image)
-        companyService.addCoupon(coupon)
-            .then((coupon) => {
-
-            })
-            .catch(err => alert(err.response.data))
-
-
-    }
+    // function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
+    //     event.preventDefault()
+    //     const coupon = new Coupon(0,company!,category,title,
+    //         description,new Date(start),new Date(end),amount,price,image)
+    //     companyService.addCoupon(coupon)
+    //         .then((coupon) => {
+    //
+    //         })
+    //         .catch(err => alert(err.response.data))
+    //
+    //
+    // }
 
 
     return (
