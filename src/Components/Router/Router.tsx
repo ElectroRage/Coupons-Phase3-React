@@ -1,5 +1,5 @@
 import "./Router.css";
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {LoginBox} from "../LoginPage/LoginBox/LoginBox";
 import {AdminPage} from "../AdminComponents/AdminPage/AdminPage";
 import {CompanyPanel} from "../CompanyComponents/CompanyPanel/CompanyPanel";
@@ -10,18 +10,34 @@ import authService from "../../Services/AuthService";
 export function Router(): JSX.Element {
 
     const location = useLocation();
+    const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     config.header
-    //
-    // )
-    //
-    // }, []);
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (!token) {
+            alert("Missing Info, Please login")
+            navigate("/login")
+            return;
+        }
+        authService.validate(token)
+            .then(bool => {
+                if (!bool) {
+                    localStorage.removeItem("token")
+                    alert("Session token expired, please login")
+                    navigate("/login")
+                    return
+                }
+
+            })
+
+
+    }, [location]);
+
     return (
         <div className="Routing">
             <Routes>
                 <Route path="login" element={<LoginBox/>}/>
-                <Route path="adminpanel" element={<AdminPage/>}/>
+                <Route path="administratorpanel" element={<AdminPage/>}/>
                 <Route path="companypanel" element={<CompanyPanel/>}/>
             </Routes>
 
