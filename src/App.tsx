@@ -1,32 +1,43 @@
 import React from 'react';
 import './App.css';
-import {LoginBox} from "./Components/LoginPage/LoginBox/LoginBox";
-import {Header} from "./Components/Layout-Section/Header/Header";
-import {LoginArea} from "./Components/LoginPage/LoginArea/LoginArea";
-import {PageLayout} from "./Components/Layout-Section/PageLayout/PageLayout";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, useNavigate} from "react-router-dom";
 import {Router} from "./Components/Router/Router";
 import AppBar from "@mui/material/AppBar";
-import {Toolbar, Typography} from "@mui/material";
+import {Box, Button, Toolbar} from "@mui/material";
 
 function App() {
+    const navigate = useNavigate();
     return (
         <div className="App">
-            <AppBar sx={{
-                position: "static",
-                top: "0",
-                left: "0",
-                width: "100%",
-                height:" 10vh",
-                backgroundColor: "rebeccapurple"
-            }}>
-                <Toolbar sx={{textAlign:"center"}}>
-                    {/*<Typography></Typography>*/}
-                </Toolbar>
-            </AppBar>
-            <BrowserRouter>
-                <Router/>
-            </BrowserRouter>
+            <Box sx={{flexGrow: 1}}>
+                <AppBar sx={{
+                    position: "static",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: " 10vh",
+                    backgroundColor: "rebeccapurple"
+                }}>
+
+                    <Toolbar>
+                        <Box sx={{flexGrow: 1, textAlign: 'left'}} onClick={() => navigate("/")}>
+                            <h1>PlaceHolder</h1>
+                        </Box>
+                        {localStorage.getItem("token") ?
+                            <Button color="inherit" onClick={() => {
+                                localStorage.clear()
+                                navigate("/");
+                            }}>Logout</Button> :
+                            <Button onClick={() => navigate("/login")} disableRipple	 color="inherit" sx={{textAlign: 'right'}}>
+                                Login
+                            </Button>
+                        }
+
+                    </Toolbar>
+
+                </AppBar>
+            </Box>
+            <Router/>
         </div>
     );
 }
