@@ -3,7 +3,7 @@ import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {LoginBox} from "../LoginPage/LoginBox/LoginBox";
 import {AdminPage} from "../AdminComponents/AdminPage/AdminPage";
 import {CompanyPanel} from "../CompanyComponents/CompanyPanel/CompanyPanel";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import authService from "../../Services/AuthService";
 
 
@@ -14,17 +14,19 @@ export function Router(): JSX.Element {
 
     useEffect(() => {
         const token = localStorage.getItem("token")
-        if (!token) {
+        const email = localStorage.getItem("email")
+        if (!token || !email) {
+            localStorage.clear()
             alert("Missing Info, Please login")
-            navigate("/login")
+            // navigate("/login")
             return;
         }
-        authService.validate(token)
+        authService.validate(token, email)
             .then(bool => {
                 if (!bool) {
                     localStorage.removeItem("token")
                     alert("Session token expired, please login")
-                    navigate("/login")
+                    // navigate("/login")
                     return
                 }
 
