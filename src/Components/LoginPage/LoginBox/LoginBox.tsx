@@ -18,7 +18,6 @@ import {User} from "../../../Models/User";
 import {jwtDecode} from "jwt-decode";
 
 interface jwtInfo {
-    id: string;
     user: string;
     type: string
     iat: string;
@@ -47,10 +46,6 @@ export function LoginBox(): JSX.Element {
         setPassword(event.currentTarget.value)
     }
 
-    function decodetoken(token: string) {
-
-
-    }
 
     function sendRequest(event: React.FormEvent) {
         event.preventDefault();
@@ -59,9 +54,8 @@ export function LoginBox(): JSX.Element {
             .then(token => {
                 const decoded = jwtDecode<jwtInfo>(token)
                 localStorage.token = token;
-                localStorage.setItem("id",decoded.id)
-                localStorage.setItem("user",decoded.user)
-                localStorage.setItem("type",decoded.type)
+                localStorage.setItem("user", decoded.user)
+                localStorage.setItem("type", decoded.type)
 
                 navigate("/" + clientType.toLowerCase() + "panel");
             })
