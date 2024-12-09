@@ -8,32 +8,30 @@ import authService from "../../Services/AuthService";
 
 
 export function Router(): JSX.Element {
-
-    const location = useLocation();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-        const email = localStorage.getItem("email")
-        if (!token || !email) {
-            localStorage.clear()
-            alert("Missing Info, Please login")
-            // navigate("/login")
-            return;
-        }
-        authService.validate(token, email)
-            .then(bool => {
-                if (!bool) {
-                    localStorage.removeItem("token")
-                    alert("Session token expired, please login")
-                    // navigate("/login")
-                    return
-                }
-
-            })
-
-
-    }, [location]);
+    // const location = useLocation();
+    // const navigate = useNavigate();
+    //
+    // useEffect(() => {
+    //     const token = localStorage.getItem("token")
+    //     const email = localStorage.getItem("email")
+    //     if (!token || !email) {
+    //         alert("Missing Info, Please login")
+    //         // navigate("/login")
+    //         return;
+    //     }
+    //     authService.validate(token, email)
+    //         .then(bool => {
+    //             if (!bool) {
+    //                 localStorage.removeItem("token")
+    //                 alert("Session token expired, please login")
+    //                 // navigate("/login")
+    //                 return
+    //             }
+    //
+    //         })
+    //
+    //
+    // }, [location]);
 
     return (
         <div className="Routing">

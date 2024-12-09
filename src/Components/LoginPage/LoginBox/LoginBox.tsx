@@ -1,5 +1,6 @@
 import "./LoginBox.css";
 import {
+    Box,
     Button,
     Card,
     CardContent,
@@ -71,22 +72,31 @@ export function LoginBox(): JSX.Element {
                     needs to redirect or have logout option
                 </div>
                 :
-                <Card>
-                    <CardContent>
+                <Card sx={{width:"600px",height:"350px"}}>
+                    <CardContent sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        width: "100%",
+                    }}>
                         <FormLabel sx={{fontSize: "24px"}}>Sign in</FormLabel>
-                        <form onSubmit={sendRequest}>
-                            <TextField required onChange={handleEmail} placeholder="Email*" type="email"/><br/>
-                            <TextField required onChange={handlePassword} placeholder="Password*" type="password"/><br/>
-                            <FormControlLabel control={<Checkbox/>} label="Remember me"/>
-                            <Select value={clientType} onChange={handleClientType}>
-                                <MenuItem value="" disabled>Account Type</MenuItem>
-                                <MenuItem value="Administrator">Administrator</MenuItem>
-                                <MenuItem value="Company">Company</MenuItem>
-                                <MenuItem value="Customer">Customer</MenuItem>
-                            </Select><br/>
-                            <Button type="submit" size="large" variant="contained"
-                                    sx={{backgroundColor: "rebeccapurple"}}>Submit</Button>
-                        </form>
+                        <Box sx={{marginTop:"25px"}}>
+                                <form onSubmit={sendRequest}>
+                                    <TextField required onChange={handleEmail} placeholder="Email*" type="email"/><br/>
+                                    <TextField required onChange={handlePassword} placeholder="Password*"
+                                               type="password"/><br/>
+                                    {/*<FormControlLabel control={<Checkbox/>} label="Remember me"/>*/}
+                                    <Select fullWidth value={clientType} onChange={handleClientType}>
+                                        <MenuItem value="" disabled>Account Type</MenuItem>
+                                        <MenuItem value="Administrator">Administrator</MenuItem>
+                                        <MenuItem value="Company">Company</MenuItem>
+                                        <MenuItem value="Customer">Customer</MenuItem>
+                                    </Select><br/>
+                                    <Button type="submit" size="large" variant="contained"
+                                            sx={{backgroundColor: "rebeccapurple"}}>Submit</Button>
+                                </form>
+                        </Box>
                     </CardContent>
                 </Card>
             }

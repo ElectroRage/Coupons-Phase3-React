@@ -4,22 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from "axios"
+import {BrowserRouter} from "react-router-dom";
 
 
 axios.interceptors.request.use(function (config) {
-    if(localStorage.token)
-        config.headers.Authorization = "Bearer " + localStorage.token;
+    if (localStorage.token)
+        config.headers.Authorization = localStorage.token;
     return config;
 });
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-    <App />
+    <BrowserRouter>
+        <App/>
+    </BrowserRouter>
 
     // <React.StrictMode>
-  // </React.StrictMode>
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

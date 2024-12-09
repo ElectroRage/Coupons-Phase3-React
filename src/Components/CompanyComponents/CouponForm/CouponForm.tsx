@@ -32,18 +32,12 @@ export function CouponForm(): JSX.Element {
 
     useEffect(() => {
         companyService.getDetails()
-            .then(company => {
-                setCompany(new Company(company.id, company.name, company.email, ""))
-            }
+            .then(c => {
+                    setCompany(new Company(c.id, c.name, c.email, ""))
+                }
             )
             .catch(err => console.log(err.response.data));
-    },[] );
-
-    useEffect(() => {
-        if (company) {
-            console.log("Company fetched:", company);
-        }
-    }, [company]);
+    }, []);
 
 
     function handleTitle(event: ChangeEvent<HTMLInputElement>) {
@@ -83,11 +77,12 @@ export function CouponForm(): JSX.Element {
 
     function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault()
-        const coupon = new Coupon(0, company!.id, category, title,
+        console.log(company)
+        const coupon = new Coupon(0, company!, category, title,
             description, new Date(start), new Date(end), amount, price, image)
         companyService.addCoupon(coupon)
             .then((coupon) => {
-                companyService.addCoupon(coupon)
+                console.log(coupon)
             })
             .catch(err => alert(err.response.data))
 
@@ -106,7 +101,6 @@ export function CouponForm(): JSX.Element {
                 </AccordionSummary>
                 <AccordionDetails>
                     <form onSubmit={handleSubmit}>
-
                         <Card elevation={3}>
                             <FormControl>
                                 <Grid container spacing={3}>
@@ -115,8 +109,9 @@ export function CouponForm(): JSX.Element {
                                             <TextField value={company?.name ?? "..."} label="" disabled type="text"/>
                                             <TextField value={start} label="Start Date:" type="date"
                                                        onChange={handleStartDate}/>
-                                            <TextField value={price} label="Price:" type="text" onChange={handlePrice}/>
-                                            <Select defaultValue={category} onChange={handleCategory}>
+                                            <TextField value={price} label="Price:" type="number" onChange={handlePrice}/>
+                                            <Select
+                                                defaultValue={category} onChange={handleCategory}>
                                                 <MenuItem value={"default"} disabled>Select Category</MenuItem>
                                                 <MenuItem value={"Food"}>Food</MenuItem>
                                                 <MenuItem value={"Electricity"}>Electricity</MenuItem>
@@ -132,7 +127,7 @@ export function CouponForm(): JSX.Element {
                                             <TextField value={title} label="Title" type="text" onChange={handleTitle}/>
                                             <TextField value={end} label="End Date" type="date"
                                                        onChange={handleEndDate}/>
-                                            <TextField value={amount} label="Amount for Sale" type="text"
+                                            <TextField value={amount} label="Amount for Sale" type="number"
                                                        onChange={handleAmount}/>
                                             <TextField value={image} label="Image Path" type="text"
                                                        onChange={handleImage}/>
