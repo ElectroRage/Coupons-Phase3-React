@@ -3,7 +3,7 @@ import './App.css';
 import {BrowserRouter, useNavigate} from "react-router-dom";
 import {Router} from "./Components/Router/Router";
 import AppBar from "@mui/material/AppBar";
-import {Box, Button, Toolbar} from "@mui/material";
+import {Box, Button, Toolbar, Typography} from "@mui/material";
 
 function App() {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ function App() {
 
                     <Toolbar>
                         <Box sx={{flexGrow: 1, textAlign: 'left'}} onClick={() => navigate("/")}>
-                            <h1>PlaceHolder</h1>
+                            <Typography variant={'h3'}>Coupons Control Panel</Typography>
                         </Box>
                         {localStorage.getItem("token") ?
                             <Button color="inherit" onClick={() => {
