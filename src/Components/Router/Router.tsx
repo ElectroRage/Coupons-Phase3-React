@@ -5,33 +5,35 @@ import {AdminPage} from "../AdminComponents/AdminPage/AdminPage";
 import {CompanyPanel} from "../CompanyComponents/CompanyPanel/CompanyPanel";
 import React, {useEffect, useState} from "react";
 import authService from "../../Services/AuthService";
+import axios from "axios";
 
 
 export function Router(): JSX.Element {
-    // const location = useLocation();
-    // const navigate = useNavigate();
-    //
-    // useEffect(() => {
-    //     const token = localStorage.getItem("token")
-    //     const email = localStorage.getItem("email")
-    //     if (!token || !email) {
-    //         alert("Missing Info, Please login")
-    //         // navigate("/login")
-    //         return;
-    //     }
-    //     authService.validate(token, email)
-    //         .then(bool => {
-    //             if (!bool) {
-    //                 localStorage.removeItem("token")
-    //                 alert("Session token expired, please login")
-    //                 // navigate("/login")
-    //                 return
-    //             }
-    //
-    //         })
-    //
-    //
-    // }, [location]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Add the interceptor
+        const interceptor = axios.interceptors.response.use(
+            res => res,
+            //err will contain any status that http deems as an error
+            err => {
+                // as this is meant to mainly filter unauthorized requests we'll look for 401
+                if (err.response && err.response.status === 401) {
+                    localStorage.removeItem("token")
+                    navigate("/login")
+                }
+                return Promise.reject(err);
+            })
+
+        return () => {
+            axios.interceptors.response.eject(interceptor);
+        };
+    }, [navigate]);
+
+
+
+
+
 
     return (
         <div className="Routing">

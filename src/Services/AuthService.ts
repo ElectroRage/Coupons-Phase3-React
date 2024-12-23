@@ -9,12 +9,14 @@ class AuthService {
     }
 
     async logout(token: string) {
-        return (await axios.post<string>("http://localhost:8080/logout", token)).data
+        return (await axios.post<boolean>(`http://localhost:8080/logout/${token!}`)).data
     }
 
-    async validate(token: string, email: string) {
-        return (await axios.post('http://localhost:8080/validate?token=' + token + "email=" + email)).data
+    async validate(token:string){
+        return (await axios.post<boolean>(`http://localhost:8080/validate/${token!}`)).data
+
     }
+
 
 
 }

@@ -55,9 +55,6 @@ export function LoginBox(): JSX.Element {
             .then(token => {
                 const decoded = jwtDecode<jwtInfo>(token)
                 localStorage.token = token;
-                localStorage.setItem("user", decoded.user)
-                localStorage.setItem("type", decoded.type)
-
                 navigate("/" + clientType.toLowerCase() + "panel");
             })
             .catch(err => alert("ERROR! " + err.response.data));

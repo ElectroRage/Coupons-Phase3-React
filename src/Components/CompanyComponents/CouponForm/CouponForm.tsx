@@ -17,7 +17,11 @@ import {Company} from "../../../Models/Company";
 import {CouponCard} from "../../CouponCard/CouponCard";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
 
-export function CouponForm(): JSX.Element {
+interface couponFormpProps {
+    coupon?: Coupon;
+}
+
+export function CouponForm(props?: couponFormpProps): JSX.Element {
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -31,9 +35,6 @@ export function CouponForm(): JSX.Element {
     const [coupon, setCoupon] = useState<Coupon | null>(null);
     const companyContext = useContext<Company | null>(CompanyContext!);
     const companyService = new CompanyService();
-
-
-
 
 
     function handleTitle(event: ChangeEvent<HTMLInputElement>) {
@@ -96,9 +97,9 @@ export function CouponForm(): JSX.Element {
                 </AccordionSummary>
                 <AccordionDetails>
                     {isSubmit ?
-                       <>
-                       <CouponCard key={coupon!.id} companyName={companyContext!.name} coupon={coupon!}/>
-                       </>
+                        <>
+                            <CouponCard key={coupon!.id} companyName={companyContext!.name} coupon={coupon!}/>
+                        </>
                         :
                         <form onSubmit={handleSubmit}>
                             <Card elevation={3}>
@@ -113,7 +114,8 @@ export function CouponForm(): JSX.Element {
                                                 <TextField value={price} label="Price:" type="number"
                                                            onChange={handlePrice}/>
                                                 <Select
-                                                    defaultValue={category} onChange={handleCategory}>
+                                                    defaultValue={props?.coupon?.category} value={category}
+                                                    onChange={handleCategory}>
                                                     <MenuItem value={"default"} disabled>Select Category</MenuItem>
                                                     <MenuItem value={"Food"}>Food</MenuItem>
                                                     <MenuItem value={"Electricity"}>Electricity</MenuItem>
@@ -126,19 +128,24 @@ export function CouponForm(): JSX.Element {
                                         </Grid>
                                         <Grid item>
                                             <FormControl margin="dense">
-                                                <TextField value={title} label="Title" type="text"
+                                                <TextField defaultValue={props?.coupon?.title} value={title}
+                                                           label="Title" type="text"
                                                            onChange={handleTitle}/>
-                                                <TextField value={end} label="End Date" type="date"
+                                                <TextField defaultValue={props?.coupon?.endDate} value={end}
+                                                           label="End Date" type="date"
                                                            onChange={handleEndDate}/>
-                                                <TextField value={amount} label="Amount for Sale" type="number"
+                                                <TextField defaultValue={props?.coupon?.amount} value={amount}
+                                                           label="Amount for Sale" type="number"
                                                            onChange={handleAmount}/>
-                                                <TextField value={image} label="Image Path" type="text"
+                                                <TextField defaultValue={props?.coupon?.image} value={image}
+                                                           label="Image Path" type="text"
                                                            onChange={handleImage}/>
                                             </FormControl>
                                         </Grid>
                                     </Grid>
                                     <FormControl margin="dense">
-                                        <TextField value={description} label="Description" multiline maxRows={4}
+                                        <TextField defaultValue={props?.coupon?.description} value={description}
+                                                   label="Description" multiline maxRows={4}
                                                    type="text"
                                                    onChange={handleDescription}/>
                                         <Button type="submit" variant="contained" fullWidth>Add New Coupon</Button>

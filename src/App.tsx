@@ -1,12 +1,62 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {BrowserRouter, useNavigate} from "react-router-dom";
+import {BrowserRouter, useLocation, useNavigate} from "react-router-dom";
 import {Router} from "./Components/Router/Router";
 import AppBar from "@mui/material/AppBar";
 import {Box, Button, Toolbar, Typography} from "@mui/material";
+import authService from "./Services/AuthService";
+import axios from "axios";
 
 function App() {
-    const navigate = useNavigate();
+
+    const navigate =    useNavigate();
+    const location = useLocation();
+    const [isValid,setIsValid] = useState<boolean>()
+
+
+    //TODO: doesnt work on refresh when the client is at an unauthorized route
+    useEffect(() => {
+        // ternary of  if the type of navigation is equals to refresh, if so, set reload
+        const navigateType =  (performance.navigation?.type === 1 ? "reload" : "navigate")
+        //check if the user refreshed
+        if (navigateType === "reload") {
+            const token = localStorage.getItem("token");
+            if (token) {
+                //if token is in the token list
+                authService.validate(token)
+                    .then(
+                        bool => {
+                    if (!bool) {
+                        console.log("refresh redirect to login")
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                    }
+                })
+                    .catch(err=> console.log(err.response.data.message));
+            }
+        }
+    }, [navigate]);
+
+    function barLogout() {
+        authService.logout(localStorage.getItem("token")!)
+            .then(bool => {
+                if (bool) {
+                    localStorage.clear()
+                    navigate("/");
+                }
+            })
+            .catch(err => {
+                    alert(err.response.data)
+                    localStorage.clear()
+                    navigate("/");
+
+                }
+            )
+
+
+    }
+
+
     return (
         <div className="App">
             <Box sx={{flexGrow: 1}}>
@@ -23,12 +73,11 @@ function App() {
                         <Box sx={{flexGrow: 1, textAlign: 'left'}} onClick={() => navigate("/")}>
                             <Typography variant={'h3'}>Coupons Control Panel</Typography>
                         </Box>
+
                         {localStorage.getItem("token") ?
-                            <Button color="inherit" onClick={() => {
-                                localStorage.clear()
-                                navigate("/");
-                            }}>Logout</Button> :
-                            <Button onClick={() => navigate("/login")} disableRipple	 color="inherit" sx={{textAlign: 'right'}}>
+                            <Button color="inherit" onClick={barLogout}>Logout</Button> :
+                            <Button onClick={() => navigate("/login")} disableRipple color="inherit"
+                                    sx={{textAlign: 'right'}}>
                                 Login
                             </Button>
                         }

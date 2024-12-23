@@ -13,23 +13,23 @@ export class CompanyService {
     }
 
     async deleteCoupon(couponId: number) {
-        return (await axios.delete(`http://localhost:8080/company/${couponId}`)).data
+        return (await axios.delete<number>(`http://localhost:8080/company/${couponId}`)).data
     }
-
 
     async getAll() {
         return (await axios.get<Coupon[]>("http://localhost:8080/company/all")).data
     }
 
 
-    async getAllByCategory(category: string) {
-        return (await axios.get<Coupon[]>(`http://localhost:8080/company/all/${category}`)).data
-    }
+    //redundant methods as they can more efficiently be filtered with javascript
+        async getAllByCategory(category: string) {
+            return (await axios.get<Coupon[]>(`http://localhost:8080/company/all/${category}`)).data
+        }
 
 
-    async getAllByMaxPrice(maxprice: number) {
-        return (await axios.get<Coupon[]>(`http://localhost:8080/company/all/${maxprice}`)).data
-    }
+        async getAllByMaxPrice(maxprice: number) {
+            return (await axios.get<Coupon[]>(`http://localhost:8080/company/all/${maxprice}`)).data
+        }
 
 
     async getDetails() {

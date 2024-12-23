@@ -52,7 +52,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
                 console.log(data)
                 setIsSubmit(true)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => alert(err.response.data.message))
 
 
     }
