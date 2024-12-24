@@ -9,7 +9,7 @@ export class CompanyService {
     }
 
     async updateCoupon(coupon: Coupon) {
-        return (await axios.patch<Coupon>("http://localhost:8080/company/update", coupon)).data
+        return (await axios.put<Coupon>("http://localhost:8080/company/update",coupon)).data
     }
 
     async deleteCoupon(couponId: number) {

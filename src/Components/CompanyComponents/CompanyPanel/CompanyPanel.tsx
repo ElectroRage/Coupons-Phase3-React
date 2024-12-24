@@ -5,7 +5,7 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {Company} from "../../../Models/Company";
 import {CompanyService} from "../../../Services/CompanyService";
 import {CompanyCoupons} from "../CompanyCoupons/CompanyCoupons";
-import {Card} from "@mui/material";
+import {Box, Card} from "@mui/material";
 
 export const CompanyContext = createContext<Company | null>(null);
 
@@ -26,13 +26,13 @@ export function CompanyPanel(): JSX.Element {
 
     return (
         <div className="CompanyPanel">
-            <Card elevation={3} sx={{width:"90%"}}>
+            <Box>
             <CompanyContext.Provider value={company}>
             <CouponForm/>
              <CompanyCoupons/>
             <CompanyDetails/>
             </CompanyContext.Provider>
-            </Card>
+            </Box>
         </div>
     );
 }
