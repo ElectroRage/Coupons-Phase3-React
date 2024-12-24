@@ -8,18 +8,20 @@ import {
     FormControl,
     Grid, MenuItem,
     Paper, Select, SelectChangeEvent,
-    TextField
+    TextField,
+    Typography
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {CompanyService} from "../../../Services/CompanyService";
 import {Coupon} from "../../../Models/Coupon";
 import {Company} from "../../../Models/Company";
-import {CouponCard} from "../../CouponCard/CouponCard";
+import {CouponCard} from "../CouponCard/CouponCard";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
 
 interface couponFormProps {
     coupon?: Coupon;
     onSubmit?: () => void;
+
 }
 
 export function CouponForm(props?: couponFormProps): JSX.Element {
@@ -99,7 +101,7 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                     if (props.onSubmit) {
                         props.onSubmit();
                     }
-                    alert("Coupon "+coupon.id+" Has Been Successfully Updated")
+                    alert("Coupon " + coupon.id + " Has Been Successfully Updated")
                 })
                 .catch(err => alert("Update Coupon: " + err.response.data.message))
         } else {
@@ -127,8 +129,11 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
             {/*    </AccordionSummary>*/}
             {/*    <AccordionDetails>*/}
             <form onSubmit={handleSubmit}>
-                <Card elevation={3}>
-                    <FormControl>
+                <Card elevation={3} sx={{position:"relative",padding: "25px"}}>
+                    <Box sx={{left:0}}>
+                        <Typography  variant={"h4"}>Create Coupon</Typography>
+                    </Box>
+                    <FormControl sx={{textAlign:"center"}}>
                         <Grid container spacing={3}>
                             <Grid item>
                                 <FormControl margin="dense">
