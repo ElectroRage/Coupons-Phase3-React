@@ -49,6 +49,8 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
             setPrice(props.coupon.price);
             setImage(props.coupon.image);
             setCategory(props.coupon.category);
+        } else {
+
         }
     }, [props?.coupon, coupon]);
 
@@ -92,7 +94,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
         const coupon = new Coupon(0, companyContext!, category, title,
             description, new Date(start), new Date(end), amount, price, image)
         if (props?.coupon) {
-            console.log("hi")
             coupon.id = props.coupon.id
             companyService.updateCoupon(coupon)
                 .then(coupon => {
@@ -108,13 +109,28 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
 
             companyService.addCoupon(coupon)
                 .then((coupon) => {
-                    console.log(coupon)
                     setCoupon(coupon)
                     setIsSubmit(true)
+                    alert(coupon.title + " Has Been Successfully Added.")
+                    initializeForm();
                 })
                 .catch(err => alert(err.response.data.message))
         }
 
+
+    }
+
+    function initializeForm() {
+        setTitle("");
+        setDescription("");
+        setStart(new Date().toISOString().split('T')[0]);
+        setEnd(new Date().toISOString().split('T')[0]);
+        setAmount(0);
+        setPrice(0);
+        setImage("");
+        setCategory("default")
+        setIsSubmit(false);
+        setCoupon(null);
 
     }
 
@@ -129,11 +145,11 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
             {/*    </AccordionSummary>*/}
             {/*    <AccordionDetails>*/}
             <form onSubmit={handleSubmit}>
-                <Card elevation={3} sx={{position:"relative",padding: "25px"}}>
-                    <Box sx={{left:0}}>
-                        <Typography  variant={"h4"}>Create Coupon</Typography>
+                <Card elevation={3} sx={{position: "relative", padding: "25px"}}>
+                    <Box sx={{left: 0}}>
+                        <Typography variant={"h4"}>Create Coupon</Typography>
                     </Box>
-                    <FormControl sx={{textAlign:"center"}}>
+                    <FormControl sx={{textAlign: "center"}}>
                         <Grid container spacing={3}>
                             <Grid item>
                                 <FormControl margin="dense">

@@ -40,7 +40,6 @@ export function CouponCard(props: CouponCardProps) {
                 .then(data => {
                     alert("coupon: " + props.coupon.id + " was deleted")
                     setIsDeleted(true)
-
                 })
                 .catch(err => alert(err.response.data))
 
@@ -50,6 +49,7 @@ export function CouponCard(props: CouponCardProps) {
         setToEdit(!toEdit)
     }
 
+    console.log(props.coupon.image)
 
     return (
         <div className="CouponCard">
@@ -85,7 +85,6 @@ export function CouponCard(props: CouponCardProps) {
                             </Box>
                             <CardContent>
                                 <CardMedia
-                                    sx={{maxWidth: "50px", maxHeight: "150px"}}
                                     component="img"
                                     image={props.coupon.image}
                                 />
