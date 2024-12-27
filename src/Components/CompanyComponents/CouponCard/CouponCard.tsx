@@ -41,7 +41,7 @@ export function CouponCard(props: CouponCardProps) {
                     alert("coupon: " + props.coupon.id + " was deleted")
                     setIsDeleted(true)
                 })
-                .catch(err => alert(err.response.data))
+                .catch(err => alert(err.response.data.message))
 
     }
 
@@ -49,7 +49,6 @@ export function CouponCard(props: CouponCardProps) {
         setToEdit(!toEdit)
     }
 
-    console.log(props.coupon.image)
 
     return (
         <div className="CouponCard">
@@ -73,30 +72,92 @@ export function CouponCard(props: CouponCardProps) {
                                 props!.isUpdated();
                             }} coupon={props.coupon}/></Backdrop>
                         : null}
-                    <Card elevation={3} sx={{margin: '10px', width: 345}}>
+                    <Card elevation={3} sx={{
+                        margin: '10px', height: "255px", width: "345px"
+                    }}>
                         <CardActionArea>
-                            <Box sx={{display: "flex", justifyContent: 'right'}}>
-                                <IconButton onClick={handleDelete}>
-                                    <DeleteIcon/>
-                                </IconButton>
-                                <IconButton onClick={handleEdit}>
-                                    <EditIcon/>
-                                </IconButton>
-                            </Box>
-                            <CardContent>
-                                <CardMedia
-                                    component="img"
-                                    image={props.coupon.image}
-                                />
-                                <Grid>
-                                    <Typography>{props.coupon.title}</Typography>
-                                    <div>{props.coupon.category}</div>
-                                    <div>{props.coupon.endDate.toString()}</div>
-                                    {/*<div>{props.coupon.company.name}</div>*/}
-                                    <div>{props.coupon.price}</div>
-                                    <div>{props.coupon.amount}</div>
-                                </Grid>
-                                <Typography>{props.coupon.description}</Typography>
+                            <CardMedia
+                                sx={{
+                                    maxHeight: "110px",
+                                    maxWidth: "345px",
+                                    // overflow: "clip",
+                                }}
+                                component="img"
+                                image={props.coupon.image}
+                            />
+                            <CardContent sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                overflow: "hidden",
+                                padding: 0
+
+                            }}>
+                                <Typography sx={{left: 3, position: "absolute"}}
+                                            variant={"h6"}>{props.coupon.title}</Typography>
+
+                                <Box sx={{justifyContent: "space-between", width: "345px", height: "85px"}}>
+                                    {/*<div>{props.coupon.category}</div>*/}
+                                    {/*/!*<div>{props.coupon.company.name}</div>*!/*/}
+                                    <Box sx={{
+                                        marginTop: "25px",
+                                        width: "345px",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+
+                                    }}>
+                                        {props.coupon.amount > 15 ?
+                                            <Typography sx={{marginTop: "10px", marginLeft: "5px"}} variant={"body1"}
+                                                        color={"green"}>In stock</Typography> :
+                                            <Box sx={{marginTop: "10px", marginLeft: "5px"}}>
+                                                {props.coupon.amount === 0 ?
+                                                    <Typography color={"#ba2b29"}>Out of
+                                                        Stock</Typography>
+                                                    :
+                                                    <Typography color={"#f5da42"}>Almost
+                                                        Out</Typography>
+                                                }
+                                            </Box>
+                                        }
+                                        <Box sx={{marginTop: "5px", marginRight: "5px"}}>
+                                            <Typography variant={"h6"}>${props.coupon.price}</Typography>
+                                        </Box>
+
+                                    </Box>
+
+                                    <Typography
+                                        sx={{
+                                            fontSize: "12px",
+                                            marginLeft: "5px",
+                                            textAlign: "start",
+                                            justifySelf: "start"
+                                        }}
+                                        variant={"body2"}>{props.coupon.description}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{
+                                    marginLeft:"3px",
+                                    marginTop: "20px",
+                                    width: "345px",
+                                    display: "flex",
+                                    justifySelf: "self-end",
+                                    justifyContent: "space-between",
+                                    alignContent: "center"
+                                }}>
+                                    <Typography
+                                        sx={{ color: "gray", marginLeft: "5px", marginTop: "15px" }}
+                                        variant="caption"
+                                    >
+                                        Expires {new Date(props.coupon.endDate).toLocaleDateString("en-GB")}
+                                    </Typography>
+                                    <Box>
+                                        <IconButton onClick={handleDelete}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                        <IconButton onClick={handleEdit}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                    </Box>
+                                </Box>
                             </CardContent>
                         </CardActionArea>
                     </Card>

@@ -55,6 +55,54 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     }, [props?.coupon, coupon]);
 
 
+    function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
+        event.preventDefault()
+        console.log(companyContext)
+        const coupon = new Coupon(0, companyContext!, category, title,
+            description, new Date(start), new Date(end), amount, price, image)
+        if (props?.coupon) {
+            coupon.id = props.coupon.id
+            companyService.updateCoupon(coupon)
+                .then(coupon => {
+                    setCoupon(coupon)
+                    setIsSubmit(true)
+                    if (props.onSubmit) {
+                        props.onSubmit();
+                    }
+                    alert("Coupon " + coupon.id + " Has Been Successfully Updated")
+                })
+                .catch(err => alert( err.response.data))
+        } else {
+
+            companyService.addCoupon(coupon)
+                .then((coupon) => {
+                    setCoupon(coupon)
+                    setIsSubmit(true)
+                    alert(coupon.title + " Has Been Successfully Added.")
+                    initializeForm();
+                })
+                .catch(err => alert(err.response.data))
+        }
+
+
+    }
+
+    function initializeForm() {
+        setTitle("");
+        setDescription("");
+        setStart(new Date().toISOString().split('T')[0]);
+        setEnd(new Date().toISOString().split('T')[0]);
+        setAmount(0);
+        setPrice(0);
+        setImage("");
+        setCategory("default")
+        setIsSubmit(false);
+        setCoupon(null);
+
+    }
+
+
+
     function handleTitle(event: ChangeEvent<HTMLInputElement>) {
         setTitle(event.target.value)
     }
@@ -88,52 +136,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     }
 
 
-    function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
-        event.preventDefault()
-        console.log(companyContext)
-        const coupon = new Coupon(0, companyContext!, category, title,
-            description, new Date(start), new Date(end), amount, price, image)
-        if (props?.coupon) {
-            coupon.id = props.coupon.id
-            companyService.updateCoupon(coupon)
-                .then(coupon => {
-                    setCoupon(coupon)
-                    setIsSubmit(true)
-                    if (props.onSubmit) {
-                        props.onSubmit();
-                    }
-                    alert("Coupon " + coupon.id + " Has Been Successfully Updated")
-                })
-                .catch(err => alert("Update Coupon: " + err.response.data.message))
-        } else {
-
-            companyService.addCoupon(coupon)
-                .then((coupon) => {
-                    setCoupon(coupon)
-                    setIsSubmit(true)
-                    alert(coupon.title + " Has Been Successfully Added.")
-                    initializeForm();
-                })
-                .catch(err => alert(err.response.data.message))
-        }
-
-
-    }
-
-    function initializeForm() {
-        setTitle("");
-        setDescription("");
-        setStart(new Date().toISOString().split('T')[0]);
-        setEnd(new Date().toISOString().split('T')[0]);
-        setAmount(0);
-        setPrice(0);
-        setImage("");
-        setCategory("default")
-        setIsSubmit(false);
-        setCoupon(null);
-
-    }
-
 
     return (
         <div className="CouponForm">
@@ -160,6 +162,7 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                                     <TextField value={price} label="Price:" type="number"
                                                onChange={handlePrice}/>
                                     <Select
+                                        sx={{marginTop: "2%", width: "96%", marginLeft: "2%"}}
                                         defaultValue={props?.coupon?.category} value={category}
                                         onChange={handleCategory}>
                                         <MenuItem value={"default"} disabled>Select Category</MenuItem>
@@ -193,7 +196,8 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                             <TextField value={description}
                                        label="Description" multiline maxRows={4}
                                        type="text"
-                                       onChange={handleDescription}/>
+                                       onChange={handleDescription}
+                            />
                             {props?.coupon ?
                                 <Button type="submit" variant="contained" fullWidth>Update Coupon</Button> :
                                 <Button type="submit" variant="contained" fullWidth>Add New Coupon</Button>}

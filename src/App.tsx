@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter, useLocation, useNavigate} from "react-router-dom";
-import {Router} from "./Components/Router/Router";
+import {Router} from "./Components/General/Router/Router";
 import AppBar from "@mui/material/AppBar";
 import {Box, Button, Toolbar, Typography} from "@mui/material";
 import authService from "./Services/AuthService";
@@ -27,12 +27,11 @@ function App() {
                     .then(
                         bool => {
                     if (!bool) {
-                        console.log("refresh redirect to login")
                         localStorage.removeItem("token");
                         navigate("/login");
                     }
                 })
-                    .catch(err=> console.log(err.response.data.message));
+                    .catch(err=> console.log(err.response.data));
             }
         }
     }, [navigate]);

@@ -1,14 +1,11 @@
 import "./CompanyCoupons.css";
 import {CompanyService} from "../../../Services/CompanyService";
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Coupon} from "../../../Models/Coupon";
 import {CouponCard} from "../CouponCard/CouponCard";
 import {Company} from "../../../Models/Company";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Box,
     Button,
     Card,
@@ -17,7 +14,6 @@ import {
     SelectChangeEvent,
     Slider, Typography
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 
 export function CompanyCoupons(): JSX.Element {
@@ -29,7 +25,7 @@ export function CompanyCoupons(): JSX.Element {
     const [sliderValue, setSilderValue] = useState(cMax);
     const [maxValue, setMaxValue] = useState(cMax)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
-    const companyService = new CompanyService;
+    const companyService = new CompanyService();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const pageSize = 9;
@@ -68,6 +64,7 @@ export function CompanyCoupons(): JSX.Element {
         const category = event.target.value;
         if (category === "all") {
             setFilteredCoupons(coupons.filter(c => c.price <= sliderValue));
+            setCategory(category)
 
         } else {
             setFilteredCoupons(coupons.filter(c => c.category === category && c.price <= sliderValue));
@@ -80,6 +77,21 @@ export function CompanyCoupons(): JSX.Element {
         setSilderValue(newValue as number);
     }
 
+    function handleCommit(event: React.SyntheticEvent | Event, newValue: number | number[]) {
+        const value = newValue as number;
+        if (category === "all") {
+            setFilteredCoupons(coupons.filter(c => c.price <= value))
+            setCurrentPage(1)
+
+        } else {
+            setFilteredCoupons(coupons.filter(c => {
+                    return c.category === category && c.price <= value
+                }
+            ))
+            console.log(sliderValue)
+        }
+    }
+
 
     return (
         <div className="CompanyCoupons">
@@ -90,7 +102,7 @@ export function CompanyCoupons(): JSX.Element {
             {/*    </AccordionSummary>*/}
             {/*    <AccordionDetails>*/}
             <Card elevation={3} sx={{
-                height: 800,
+                height: 950,
                 width: 1160,
                 padding: "25px",
                 marginTop: "50px",
@@ -116,19 +128,12 @@ export function CompanyCoupons(): JSX.Element {
                             margin={"5px"}
                         >
                             <Typography>Price Range:</Typography>
+
                             <Slider sx={{right: 0, width: "300px"}}
+
                                     value={sliderValue}
                                     onChange={handleSliderChange}
-                                    onChangeCommitted={(e) => {
-                                        if (category === "all") {
-                                            setFilteredCoupons(coupons.filter(c => c.price <= sliderValue))
-                                        } else {
-                                            setFilteredCoupons(coupons.filter(c => {
-                                                return (c.price <= sliderValue && c.category === category)
-                                            }))
-                                        }
-                                        setCurrentPage(1)
-                                    }}
+                                    onChangeCommitted={handleCommit}
                                     valueLabelDisplay="auto"
                                     min={0}
                                     max={cMax}

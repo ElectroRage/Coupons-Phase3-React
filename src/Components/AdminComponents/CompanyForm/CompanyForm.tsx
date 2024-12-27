@@ -49,7 +49,6 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
         adminService.addCompany(comp)
             .then(data => {
                 setFormCompany(data)
-                console.log(data)
                 setIsSubmit(true)
             })
             .catch(err => alert(err.response.data.message))
