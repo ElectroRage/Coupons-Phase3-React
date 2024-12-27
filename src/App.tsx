@@ -10,9 +10,6 @@ import axios from "axios";
 function App() {
 
     const navigate =    useNavigate();
-    const location = useLocation();
-    const [isValid,setIsValid] = useState<boolean>()
-
 
     //TODO: doesnt work on refresh when the client is at an unauthorized route
     useEffect(() => {

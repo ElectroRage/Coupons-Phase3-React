@@ -9,7 +9,7 @@ export const CustomerContext = createContext<Customer | null>(null)
 
 export function CustomerPanel(): JSX.Element {
 
-    const [customer, setCustomer] = useState<Customer | null>()
+    const [customer, setCustomer] = useState<Customer | null>(null)
     const customerService = new CustomerService()
 
     useEffect(() => {
@@ -17,6 +17,7 @@ export function CustomerPanel(): JSX.Element {
             .then(data => {
                 const newCustomer = new Customer(data?.id, data.firstName, data.lastName, data.email, "")
                 setCustomer(newCustomer)
+                console.log(newCustomer)
             })
             .catch(err => console.log(err.response.data))
 

@@ -9,6 +9,7 @@ import axios from "axios";
 import {PageNotFound} from "../PageNotFound/PageNotFound";
 import {HomePage} from "../HomePage/HomePage";
 import {CustomerPanel} from "../../CustomerComponents/CustomerPanel/CustomerPanel";
+import {PanelRouter} from "../../PanelRouter/PanelRouter";
 
 
 export function Router(): JSX.Element {
@@ -39,6 +40,7 @@ export function Router(): JSX.Element {
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="login" element={<LoginBox/>}/>
+                {/*<Route path="control" element={<PanelRouter/>}/>*/}
                 <Route path="administratorpanel" element={<AdminPage/>}/>
                 <Route path="companypanel" element={<CompanyPanel/>}/>
                 <Route path="customerpanel" element={<CustomerPanel/>}/>

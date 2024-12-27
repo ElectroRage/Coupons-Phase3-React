@@ -5,6 +5,7 @@ import {User} from "../Models/User";
 class AuthService {
 
     async login(user: User) {
+        console.log(user)
         return (await axios.post<string>("http://localhost:8080/login", user)).data
     }
 

@@ -19,9 +19,12 @@ export function CompanyPanel(): JSX.Element {
         companyService.getDetails()
             .then(c => {
                 const newCompany = new Company(c.id, c.name, c.email, "");
+                console.log(newCompany)
                 setCompany(newCompany)
             })
-            .catch(err => console.log(err.response.data));
+            .catch(err => {
+                console.log(err.response.data)
+            });
 
     }, []);
 
