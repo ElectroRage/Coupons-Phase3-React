@@ -1,10 +1,5 @@
-import "./CompanyCoupons.css";
-import {CompanyService} from "../../../Services/CompanyService";
 import React, {useContext, useEffect, useState} from "react";
 import {Coupon} from "../../../Models/Coupon";
-import {CouponCard} from "../CouponCard/CouponCard";
-import {Company} from "../../../Models/Company";
-import {CompanyContext} from "../CompanyPanel/CompanyPanel";
 import {
     Box,
     Button,
@@ -14,10 +9,12 @@ import {
     SelectChangeEvent,
     Slider, Typography
 } from "@mui/material";
+import {CustomerService} from "../../../Services/CustomerService";
+import {CouponCard} from "../../CompanyComponents/CouponCard/CouponCard";
 
 
-export function CompanyCoupons(): JSX.Element {
-    const company = useContext<Company | null>(CompanyContext!)
+export function AllCouponsComp(): JSX.Element {
+
     const [coupons, setCoupons] = useState<Coupon[]>([])
     const [filteredCoupons, setFilteredCoupons] = useState<Coupon[]>([])
     const [category, setCategory] = useState<string>("all")
@@ -25,10 +22,10 @@ export function CompanyCoupons(): JSX.Element {
     const [sliderValue, setSilderValue] = useState(cMax);
     const [maxValue, setMaxValue] = useState(cMax)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
-    const companyService = new CompanyService();
+    const customerService = new CustomerService();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const pageSize = 9;
+    const pageSize = 12;
     const numOfPages = (Math.ceil(filteredCoupons?.length / pageSize));
 
     function handleNext() {
@@ -46,7 +43,7 @@ export function CompanyCoupons(): JSX.Element {
 
 
     useEffect(() => {
-        companyService.getAll()
+        customerService.getGeneralCoupons()
             .then(data => {
                 setCoupons(data)
                 setFilteredCoupons(data)
@@ -58,7 +55,7 @@ export function CompanyCoupons(): JSX.Element {
             .catch(err => alert(err.response.data.message))
 
 
-    }, [isUpdated]);
+    }, []);
 
     function handleCategory(event: SelectChangeEvent<string>) {
         const category = event.target.value;
@@ -94,20 +91,15 @@ export function CompanyCoupons(): JSX.Element {
 
 
     return (
-        <div className="CompanyCoupons">
-            {/*<Accordion>*/}
-            {/*    <AccordionSummary*/}
-            {/*        expandIcon={<ExpandMoreIcon/>}>*/}
-            {/*        <h3>Company Coupons</h3>*/}
-            {/*    </AccordionSummary>*/}
-            {/*    <AccordionDetails>*/}
+        <div className="AllCouponsComp">
             <Card elevation={3} sx={{
                 height: 950,
-                width: 1160,
+                width: "85%",
                 padding: "25px",
                 marginTop: "50px",
                 marginBottom: "100px",
-                overflow: "unset"
+                overflow: "unset",
+                justifySelf: "center"
             }}>
                 <Typography variant={"h4"}>Published Coupons</Typography>
                 <Box sx={{flexGrow: 1, display: "flex", justifyContent: "space-between"}}>
@@ -146,16 +138,15 @@ export function CompanyCoupons(): JSX.Element {
                     <Box>
                         <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
                             {filteredCoupons
-                                .slice((currentPage - 1) * 9, currentPage * 9)
+                                .slice((currentPage - 1) * 12, currentPage * 12)
                                 .map((c, i) => (
                                     <CouponCard
-                                        isCustomer={false}
+                                        isCustomer={true}
                                         isUpdated={() => {
                                             setIsUpdated(true)
                                         }}
                                         key={c.id}
                                         coupon={c}
-                                        companyName={company?.name}
                                     />
                                 ))}
                         </Box>
@@ -169,9 +160,6 @@ export function CompanyCoupons(): JSX.Element {
                     :
                     <Typography variant={"h5"}>No Coupons Found...</Typography>}
             </Card>
-            {/*    </AccordionDetails>*/}
-            {/*</Accordion>*/}
-
         </div>
     );
 }

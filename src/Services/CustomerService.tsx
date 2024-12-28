@@ -5,11 +5,15 @@ import {Customer} from "../Models/Customer";
 export class CustomerService {
 
     async purchase(coupon: Coupon) {
-        return (await axios.post("http://localhost:8080/customer/purchase")).data
+        return (await axios.post("http://localhost:8080/customer/purchase",coupon)).data
     }
 
     async getAll() {
         return (await axios.get<Coupon[]>("http://localhost:8080/customer/all")).data
+    }
+
+    async getGeneralCoupons(){
+        return( await axios.get<Coupon[]>("http://localhost:8080/general/allcoupons")).data
     }
 
     //redundant methods as they can more efficiently be filtered with javascript
