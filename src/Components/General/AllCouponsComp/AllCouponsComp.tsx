@@ -52,7 +52,7 @@ export function AllCouponsComp(): JSX.Element {
                 setSilderValue(temp)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data.message))
+            .catch(err => alert(err.response.data))
 
 
     }, []);
@@ -93,7 +93,7 @@ export function AllCouponsComp(): JSX.Element {
     return (
         <div className="AllCouponsComp">
             <Card elevation={3} sx={{
-                height: 950,
+                height: "90%",
                 width: "85%",
                 padding: "25px",
                 marginTop: "50px",

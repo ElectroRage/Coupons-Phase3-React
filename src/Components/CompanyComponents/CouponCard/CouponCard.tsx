@@ -44,7 +44,7 @@ export function CouponCard(props: CouponCardProps) {
             customerService.purchase(props.coupon)
                 .then(() =>
                     alert(props.coupon.title + "was purchased successfully"))
-                .catch(err => alert("Error!" + err.response.data.message))
+                .catch(err => alert(err.response.data))
         }
 
     }

@@ -58,22 +58,14 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
 
     return (
         <div className="CompanyForm">
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
-                    aria-controls="panel1-content">
-                    <h3>PlaceHolder</h3>
-                </AccordionSummary>
-                <AccordionDetails>
 
-
-                    {isSubmit ?
-                    <>
-                        <h3>{formCompany?.name} has been added.</h3>
-                        <CompanyCard key={formCompany?.id} company={formCompany!}/>
-                    </>
-                    :
-                        <Card>
+            {isSubmit ?
+                <>
+                    <h3>{formCompany?.name} has been added.</h3>
+                    <CompanyCard key={formCompany?.id} company={formCompany!}/>
+                </>
+                :
+                <Card>
                     <form onSubmit={handleSubmit}>
 
                         <FormControl margin="dense">
@@ -92,9 +84,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
                             <Button type="submit" sx={{margin: "10px"}} variant="contained">Add Company</Button>
                         </FormControl>
                     </form>
-                        </Card>}
-                </AccordionDetails>
-            </Accordion>
+                </Card>}
         </div>
     );
 }

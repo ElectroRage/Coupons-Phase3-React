@@ -29,6 +29,10 @@ export class AdminService {
         return (await axios.get<Customer[]>("http://localhost:8080//admin/allcustomers")).data
     }
 
+    async addCustomer(customer:Customer){
+        return (await axios.post<Customer>("http://localhost:8080/admin/customer",customer)).data
+    }
+
     async getOneCustomers(customerId: number) {
         return (await axios.get<Customer>(`http://localhost:8080/admin/customer/${customerId}`)).data
     }
