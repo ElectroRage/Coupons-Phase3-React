@@ -1,0 +1,96 @@
+import "./AllCompaniesComp.css";
+import React, {useEffect, useState} from "react";
+import {Company} from "../../../../Models/Company";
+import {AdminService} from "../../../../Services/AdminService";
+import {CompanyCard} from "../CompanyCard/CompanyCard"
+import {
+    Box, Button,
+    Card,
+    Typography
+} from "@mui/material";
+
+
+export function AllCompaniessComp(): JSX.Element {
+
+    const [companies, setCompanies] = useState<Company[]>([]);
+    const [isUpdated, setIsUpdated] = useState<boolean>(false)
+    const adminService = new AdminService();
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const pageSize = 12;
+    const numOfPages = (Math.ceil(companies?.length / pageSize));
+
+    // useEffect(() => {
+    //     adminService.getAllCompanies()
+    //         .then(data => setCompanies(data))
+    //         .catch(err => console.log(err.response.data))
+    //
+    // }, []);
+
+    useEffect(() => {
+        adminService.getAllCompanies()
+            .then(data => {
+                setCompanies(data)
+                setIsUpdated(false)
+            })
+            .catch(err => alert(err.response.data))
+
+
+    }, [isUpdated]);
+
+    function handleNext() {
+        if (currentPage < numOfPages) {
+            setCurrentPage(currentPage + 1);
+
+        }
+    }
+
+    function handlePrev() {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+
+
+    return (
+        <div className="AllCompanysComp">
+            <Card elevation={3} sx={{
+                height: 550,
+                width: 1160,
+                padding: "25px",
+                marginTop: "50px",
+                marginBottom: "100px",
+                overflow: "unset"
+            }}>
+                <Box sx={{marginBottom:"20px"}}>
+                    <Typography variant={"h4"}>Company List:</Typography>
+                </Box>
+                {companies.length > 0 ?
+                    <Box>
+                        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+                            {companies
+                                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                                .map((c) => (
+                                    <CompanyCard
+                                        isUpdated={() => {
+                                            setIsUpdated(true)
+                                        }}
+                                        key={c.id}
+                                        company={c}
+
+                                    />
+                                ))}
+                        </Box>
+                        <Box>
+                            <Button variant="text" onClick={handlePrev}>{"<<"}</Button>
+                            <Typography variant="button">{currentPage} - {numOfPages}</Typography>
+                            <Button variant="text" onClick={handleNext}>{">>"}</Button>
+                        </Box>
+                    </Box>
+                    :
+                    <Typography variant={"h5"}>No Coupons Found...</Typography>}
+            </Card>
+
+        </div>
+    );
+}

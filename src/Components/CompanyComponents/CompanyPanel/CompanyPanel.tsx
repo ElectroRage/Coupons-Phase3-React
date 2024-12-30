@@ -1,6 +1,5 @@
 import "./CompanyPanel.css";
 import {CouponForm} from "../CouponForm/CouponForm";
-import {CompanyDetails} from "../CompanyDetails/CompanyDetails";
 import {createContext, useContext, useEffect, useState} from "react";
 import {Company} from "../../../Models/Company";
 import {CompanyService} from "../../../Services/CompanyService";

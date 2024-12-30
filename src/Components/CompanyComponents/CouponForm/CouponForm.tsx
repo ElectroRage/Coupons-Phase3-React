@@ -1,21 +1,17 @@
 import "./CouponForm.css";
 import React, {ChangeEvent, useState, useEffect, useContext} from "react";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary, Box,
+   Box,
     Button, Card,
     FormControl,
     Grid, MenuItem,
-    Paper, Select, SelectChangeEvent,
+    Select, SelectChangeEvent,
     TextField,
     Typography
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {CompanyService} from "../../../Services/CompanyService";
 import {Coupon} from "../../../Models/Coupon";
 import {Company} from "../../../Models/Company";
-import {CouponCard} from "../CouponCard/CouponCard";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
 
 interface couponFormProps {
@@ -140,12 +136,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     return (
         <div className="CouponForm">
 
-            {/*<Accordion>*/}
-            {/*    <AccordionSummary*/}
-            {/*        expandIcon={<ExpandMoreIcon/>}>*/}
-            {/*        <h3>New Coupon</h3>*/}
-            {/*    </AccordionSummary>*/}
-            {/*    <AccordionDetails>*/}
             <form onSubmit={handleSubmit}>
                 <Card elevation={3} sx={{position: "relative", padding: "25px"}}>
                     <Box sx={{left: 0}}>

@@ -10,7 +10,7 @@ export class AdminService {
     }
 
     async updateCompany(company: Company) {
-        return (await axios.patch<Company>("http://localhost:8080/admin/company", company)).data
+        return (await axios.put<Company>("http://localhost:8080/admin/company", company)).data
     }
 
     async deleteCompany(companyId: number) {
@@ -31,6 +31,10 @@ export class AdminService {
 
     async addCustomer(customer:Customer){
         return (await axios.post<Customer>("http://localhost:8080/admin/customer",customer)).data
+    }
+
+    async updateCustomer(customer:Customer){
+        return (await axios.put<Customer>("http://localhost:8080/admin/customer")).data
     }
 
     async getOneCustomers(customerId: number) {

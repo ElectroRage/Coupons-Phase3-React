@@ -138,8 +138,8 @@ export function AllCouponsComp(): JSX.Element {
                     <Box>
                         <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
                             {filteredCoupons
-                                .slice((currentPage - 1) * 12, currentPage * 12)
-                                .map((c, i) => (
+                                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                                .map((c) => (
                                     <CouponCard
                                         isCustomer={true}
                                         isUpdated={() => {
@@ -151,7 +151,6 @@ export function AllCouponsComp(): JSX.Element {
                                 ))}
                         </Box>
                         <Box>
-
                             <Button variant="text" onClick={handlePrev}>{"<<"}</Button>
                             <Typography variant="button">{currentPage} - {numOfPages}</Typography>
                             <Button variant="text" onClick={handleNext}>{">>"}</Button>

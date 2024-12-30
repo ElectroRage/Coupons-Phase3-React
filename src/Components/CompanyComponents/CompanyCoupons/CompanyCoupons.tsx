@@ -23,7 +23,6 @@ export function CompanyCoupons(): JSX.Element {
     const [category, setCategory] = useState<string>("all")
     const [cMax, setcMax] = useState<number>(0)
     const [sliderValue, setSilderValue] = useState(cMax);
-    const [maxValue, setMaxValue] = useState(cMax)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
     const companyService = new CompanyService();
 
@@ -55,7 +54,7 @@ export function CompanyCoupons(): JSX.Element {
                 setSilderValue(temp)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data.message))
+            .catch(err => alert(err.response.data))
 
 
     }, [isUpdated]);
@@ -95,12 +94,6 @@ export function CompanyCoupons(): JSX.Element {
 
     return (
         <div className="CompanyCoupons">
-            {/*<Accordion>*/}
-            {/*    <AccordionSummary*/}
-            {/*        expandIcon={<ExpandMoreIcon/>}>*/}
-            {/*        <h3>Company Coupons</h3>*/}
-            {/*    </AccordionSummary>*/}
-            {/*    <AccordionDetails>*/}
             <Card elevation={3} sx={{
                 height: 950,
                 width: 1160,
@@ -146,8 +139,8 @@ export function CompanyCoupons(): JSX.Element {
                     <Box>
                         <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
                             {filteredCoupons
-                                .slice((currentPage - 1) * 9, currentPage * 9)
-                                .map((c, i) => (
+                                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                                .map((c) => (
                                     <CouponCard
                                         isCustomer={false}
                                         isUpdated={() => {
@@ -169,9 +162,6 @@ export function CompanyCoupons(): JSX.Element {
                     :
                     <Typography variant={"h5"}>No Coupons Found...</Typography>}
             </Card>
-            {/*    </AccordionDetails>*/}
-            {/*</Accordion>*/}
-
         </div>
     );
 }

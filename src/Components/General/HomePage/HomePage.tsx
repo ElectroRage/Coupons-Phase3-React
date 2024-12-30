@@ -1,9 +1,6 @@
 import "./HomePage.css";
-import {AllCompanysComp} from "../../AdminComponents/AllCompanysComp/AllCompanysComp";
 import {AllCouponsComp} from "../AllCouponsComp/AllCouponsComp";
-import {Image} from "@mui/icons-material";
 import React from "react";
-import {Card, CardContent, CardMedia} from "@mui/material";
 
 export function HomePage(): JSX.Element {
     return (

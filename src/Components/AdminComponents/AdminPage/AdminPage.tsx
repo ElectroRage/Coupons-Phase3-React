@@ -1,18 +1,21 @@
 import "./AdminPage.css";
-import {AllCompanysComp} from "../AllCompanysComp/AllCompanysComp";
-import {CompanyForm} from "../CompanyForm/CompanyForm";
-import {CustomerForm} from "../CustomerForm/CustomerForm";
+import {CompanyForm} from "../Admin-Companies/CompanyForm/CompanyForm";
+import {CustomerForm} from "../Admin-Customers/CustomerForm/CustomerForm";
 import {Box} from "@mui/material";
+import {AllCompaniessComp} from "../Admin-Companies/AllCompaniesComp/AllCompaniesComp";
 
 export function AdminPage(): JSX.Element {
     return (
         <div className="AdminPage">
-            <Box sx={{justifySelf:"center"}}>
-                <AllCompanysComp/>
-                <Box sx={{width: "80%", display: "flex", justifyContent: "space-between"}}>
+            <Box sx={{display:"flex",flexDirection:"column",justifyContent:"center",justifySelf: "center",}}>
+                <Box>
                     <CustomerForm/>
+                </Box>
+                <Box>
                     <CompanyForm/>
                 </Box>
+                <AllCompaniessComp/>
+
             </Box>
         </div>
     );
