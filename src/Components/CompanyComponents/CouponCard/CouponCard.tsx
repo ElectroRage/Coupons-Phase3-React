@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {CouponForm} from "../CouponForm/CouponForm";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {CustomerService} from "../../../Services/CustomerService";
+import {useNavigate} from "react-router-dom";
 
 
 interface CouponCardProps {
@@ -35,18 +36,23 @@ export function CouponCard(props: CouponCardProps) {
 
     const [isDeleted, setIsDeleted] = useState<boolean>(false)
     const [toEdit, setToEdit] = useState<boolean>(false)
+    const navigate = useNavigate()
     const companyService = new CompanyService();
     const customerService = new CustomerService();
 
 
     function purchaseCoupon() {
         if (window.confirm("Are you sure you want to purchase " + props.coupon.title + "?")) {
-            customerService.purchase(props.coupon)
-                .then(() =>
-                    alert(props.coupon.title + "was purchased successfully"))
-                .catch(err => alert(err.response.data))
+            if(localStorage.getItem("token")){
+                customerService.purchase(props.coupon)
+                    .then(() =>
+                        alert(props.coupon.title + "was purchased successfully"))
+                    .catch(err => alert(err.response.data))
+            }else{
+                alert("Please Login To Perform This Action")
+                navigate("/login")
+            }
         }
-
     }
 
     function handleDelete() {
@@ -184,7 +190,6 @@ export function CouponCard(props: CouponCardProps) {
                                                             position:"absolute",
                                                             marginRight:"50px",
                                                             marginTop:"5px",
-                                                            zIndex:9999
                                                             }}
                                                                           onClick={purchaseCoupon}/>
                                                     </IconButton>

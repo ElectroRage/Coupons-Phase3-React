@@ -152,7 +152,8 @@ export function AllCouponsComp(): JSX.Element {
                         </Box>
                         <Box>
                             <Button variant="text" onClick={handlePrev}>{"<<"}</Button>
-                            <Typography variant="button">{currentPage} - {numOfPages}</Typography>
+                            <Typography
+                                variant="button">{currentPage} - {numOfPages > 0 ? numOfPages : "1"}</Typography>
                             <Button variant="text" onClick={handleNext}>{">>"}</Button>
                         </Box>
                     </Box>
