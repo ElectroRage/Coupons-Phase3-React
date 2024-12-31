@@ -13,7 +13,9 @@ import {CompanyCard} from "../../Admin-Companies/CompanyCard/CompanyCard";
 import {Customer} from "../../../../Models/Customer";
 
 interface CustomerProps {
-    customer?: Customer;
+    customer?: Customer,
+    isEdit: boolean,
+    onSubmit?: () => void
 }
 
 
@@ -74,16 +76,17 @@ export function CustomerForm(props: CustomerProps): JSX.Element {
         <div className="CustomerForm">
 
             <Card sx={{
+                justifySelf: "center",
                 marginTop: "20px",
                 marginBottom: "20px",
-                width: "100%",
+                width: "70rem",
                 display: "flex",
                 flexDirection: "column",
                 padding: "35px",
-                position:"relative"
+                position: "relative"
             }}>
                 <Box alignSelf={"flex-start"} marginBottom={"20px"}>
-                    <Typography variant={"h5"}>Add Customer:</Typography>
+                    <Typography variant={"h5"}>{props.isEdit ? "Edit Customer:" : "Add Customer:"}</Typography>
                 </Box>
 
                 <form onSubmit={handleSubmit}>

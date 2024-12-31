@@ -1,39 +1,30 @@
-import "./AllCompaniesComp.css";
+import "./AllCustomersComp.css";
 import React, {useEffect, useState} from "react";
 import {Company} from "../../../../Models/Company";
 import {AdminService} from "../../../../Services/AdminService";
-import {CompanyCard} from "../CompanyCard/CompanyCard"
-import {
-    Box, Button,
-    Card,
-    Typography
-} from "@mui/material";
+import {Box, Button, Card, Typography} from "@mui/material";
+import {CompanyCard} from "../../Admin-Companies/CompanyCard/CompanyCard";
+import {Customer} from "../../../../Models/Customer";
+import {CustomerCard} from "../CustomerCard/CustomerCard";
 
-
-export function AllCompaniessComp(): JSX.Element {
-
-    const [companies, setCompanies] = useState<Company[]>([]);
+export function AllCustomersComp(): JSX.Element {
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
     const adminService = new AdminService();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const pageSize = 12;
-    const numOfPages = (Math.ceil(companies?.length / pageSize));
+    const numOfPages = (Math.ceil(customers?.length / pageSize));
 
-    // useEffect(() => {
-    //     adminService.getAllCompanies()
-    //         .then(data => setCompanies(data))
-    //         .catch(err => console.log(err.response.data))
-    //
-    // }, []);
 
     useEffect(() => {
-        adminService.getAllCompanies()
+        console.log("hi")
+        adminService.getAllCustomers()
             .then(data => {
-                setCompanies(data)
+                setCustomers(data)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => alert(err.response.message))
 
 
     }, [isUpdated]);
@@ -53,7 +44,7 @@ export function AllCompaniessComp(): JSX.Element {
 
 
     return (
-        <div className="AllCompanysComp">
+        <div className="AllCustomersComp">
             <Card elevation={3} sx={{
                 justifySelf: "center",
                 justifyContent: "center",
@@ -65,20 +56,20 @@ export function AllCompaniessComp(): JSX.Element {
                 // overflow: "unset",
             }}>
                 <Box sx={{marginBottom: "20px"}}>
-                    <Typography variant={"h4"}>Company List:</Typography>
+                    <Typography variant={"h4"}>Customers List:</Typography>
                 </Box>
-                {companies.length > 0 ?
+                {customers.length > 0 ?
                     <Box sx={{position: "relative"}}>
                         <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center", minHeight: "30rem"}}>
-                            {companies
+                            {customers
                                 .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                                 .map((c) => (
-                                    <CompanyCard
+                                    <CustomerCard
                                         isUpdated={() => {
                                             setIsUpdated(true)
                                         }}
                                         key={c.id}
-                                        company={c}
+                                        customer={c}
 
                                     />
                                 ))}
@@ -90,7 +81,7 @@ export function AllCompaniessComp(): JSX.Element {
                         </Box>
                     </Box>
                     :
-                    <Typography variant={"h5"}>No Coupons Found...</Typography>}
+                    <Typography variant={"h5"}>No Customers Found...</Typography>}
             </Card>
 
         </div>

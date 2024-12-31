@@ -1,38 +1,32 @@
-import "./CompanyCard.css";
-import {Company} from "../../../../Models/Company";
-import {
-    Backdrop,
-    Box,
-    Card,
-    CardActionArea,
-    CardContent,
-    IconButton, Typography,
-} from "@mui/material";
+import "./CustomerCard.css";
+import {Customer} from "../../../../Models/Customer";
 import React, {useState} from "react";
 import {AdminService} from "../../../../Services/AdminService";
-import {CompanyForm} from "../CompanyForm/CompanyForm"
+import {Backdrop, Box, Card, CardActionArea, CardContent, IconButton, Typography} from "@mui/material";
+import {CompanyForm} from "../../Admin-Companies/CompanyForm/CompanyForm";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import {CustomerForm} from "../CustomerForm/CustomerForm";
 
-interface CompanyCardProps {
-    company?: Company,
-    isUpdated: () => void
-
+interface CustomerCardProps {
+    isUpdated: () => void,
+    customer?: Customer,
+    isEdit?: boolean,
+    onSubmit?: () => void
 }
 
-
-export function CompanyCard(props: CompanyCardProps): JSX.Element {
+export function CustomerCard(props: CustomerCardProps): JSX.Element {
     const [isDeleted, setIsDeleted] = useState<boolean>(false)
     const [toEdit, setToEdit] = useState<boolean>(false)
     const adminService = new AdminService();
 
 
     function handleDelete() {
-        const bool = window.confirm('Are you sure you want to delete ' + props.company?.name + "?");
+        const bool = window.confirm('Are you sure you want to delete ' + props.customer?.firstName + " " + props.customer?.lastName + "?");
         if (bool)
-            adminService.deleteCompany(props.company!.id)
+            adminService.deleteCustomer(props.customer!.id)
                 .then(data => {
-                    alert(props.company?.name + " was deleted")
+                    alert(props.customer?.firstName + " " + props.customer?.lastName + " was deleted")
                     setIsDeleted(true)
                     props.isUpdated();
                 })
@@ -46,8 +40,7 @@ export function CompanyCard(props: CompanyCardProps): JSX.Element {
 
 
     return (
-        <div className="CompanyCard">
-
+        <div className="CustomerCard">
             {isDeleted ?
                 null
                 :
@@ -63,13 +56,13 @@ export function CompanyCard(props: CompanyCardProps): JSX.Element {
                                 }
                             }}
                             open={toEdit}>
-                            <CompanyForm
+                            <CustomerForm
                                 isEdit={true}
                                 onSubmit={() => {
                                     handleEdit()
                                     props!.isUpdated();
                                 }}
-                                company={props.company}
+                                customer={props.customer}
                             />
                         </Backdrop>
                         : null}
@@ -99,16 +92,17 @@ export function CompanyCard(props: CompanyCardProps): JSX.Element {
                                 textOverflow: "ellipsis"
                             }}>
                                 <Box>
-                                    <Typography noWrap><strong>ID: </strong> {props.company?.id}</Typography>
-                                    <Typography noWrap><strong>Company: </strong> {props.company?.name}</Typography>
-                                    <Typography marginBottom={1} noWrap><strong>Email: </strong>{props.company?.email}
+                                    <Typography noWrap><strong>ID: </strong> {props.customer?.id}</Typography>
+                                    <Typography noWrap><strong>Full
+                                        Name: </strong>{props.customer?.firstName + " " + props.customer?.lastName}
+                                    </Typography>
+                                    <Typography marginBottom={1} noWrap><strong>Email: </strong>{props.customer?.email}
                                     </Typography>
                                 </Box>
                             </CardContent>
                         </CardActionArea>
                     </Card>
-                </Box>
+                </Box>}
+                </div>
+            );
             }
-        </div>
-    );
-}

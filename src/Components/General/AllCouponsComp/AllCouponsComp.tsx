@@ -20,7 +20,6 @@ export function AllCouponsComp(): JSX.Element {
     const [category, setCategory] = useState<string>("all")
     const [cMax, setcMax] = useState<number>(0)
     const [sliderValue, setSilderValue] = useState(cMax);
-    const [maxValue, setMaxValue] = useState(cMax)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
     const customerService = new CustomerService();
 
@@ -93,7 +92,7 @@ export function AllCouponsComp(): JSX.Element {
     return (
         <div className="AllCouponsComp">
             <Card elevation={3} sx={{
-                height: "90%",
+                minHeight: "90%",
                 width: "85%",
                 padding: "25px",
                 marginTop: "50px",
@@ -102,7 +101,7 @@ export function AllCouponsComp(): JSX.Element {
                 justifySelf: "center"
             }}>
                 <Typography variant={"h4"}>Published Coupons</Typography>
-                <Box sx={{flexGrow: 1, display: "flex", justifyContent: "space-between"}}>
+                <Box sx={{display: "flex", justifyContent: "space-between"}}>
                     <Box>
                         <Select defaultValue={"all"} onChange={handleCategory}>
                             <MenuItem value={"all"}>Show All</MenuItem>
@@ -135,8 +134,8 @@ export function AllCouponsComp(): JSX.Element {
                 </Box>
 
                 {coupons.length > 0 ?
-                    <Box>
-                        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+                    <Box sx={{}}>
+                        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center",}}>
                             {filteredCoupons
                                 .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                                 .map((c) => (

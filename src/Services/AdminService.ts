@@ -26,7 +26,7 @@ export class AdminService {
     }
 
     async getAllCustomers() {
-        return (await axios.get<Customer[]>("http://localhost:8080//admin/allcustomers")).data
+            return (await axios.get<Customer[]>("http://localhost:8080/admin/allcustomers")).data
     }
 
     async addCustomer(customer:Customer){
@@ -41,5 +41,9 @@ export class AdminService {
         return (await axios.get<Customer>(`http://localhost:8080/admin/customer/${customerId}`)).data
     }
 
+    async deleteCustomer(id: number) {
+        return (await axios.delete<number>(`http://localhost:8080/admin/customer/${id}`))
+
+    }
 }
 

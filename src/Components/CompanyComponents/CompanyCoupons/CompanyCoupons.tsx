@@ -137,7 +137,7 @@ export function CompanyCoupons(): JSX.Element {
 
                 {coupons.length > 0 ?
                     <Box>
-                        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+                        <Box sx={{display: "flex", flexWrap: "wrap", justifyContent: "center",minHeight:800}}>
                             {filteredCoupons
                                 .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                                 .map((c) => (
@@ -155,8 +155,7 @@ export function CompanyCoupons(): JSX.Element {
                         <Box>
 
                             <Button variant="text" onClick={handlePrev}>{"<<"}</Button>
-                            <Typography
-                                variant="button">{currentPage} - {numOfPages > 0 ? numOfPages : "1"} </Typography>
+                            <Typography variant="button">{currentPage} - {numOfPages >0 ? numOfPages:"1"} </Typography>
                             <Button variant="text" onClick={handleNext}>{">>"}</Button>
                         </Box>
                     </Box>

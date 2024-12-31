@@ -20,6 +20,7 @@ import {Coupon} from "../../../../Models/Coupon";
 interface CompanyProps {
     company?: Company;
     onSubmit?: () => void;
+    isEdit: boolean
 }
 
 
@@ -66,7 +67,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
 
     function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault()
-        const company = new Company(props.company!.id,formName,formEmail,formPassword)
+        const company = new Company(props.company!.id, formName, formEmail, formPassword)
         if (props?.company) {
             company.id = props.company.id
             console.log(company)
@@ -103,9 +104,10 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
     return (
         <div className="CompanyForm">
             <Card sx={{
+                justifySelf: "center",
                 marginTop: "20px",
                 marginBottom: "20px",
-                width: "100%",
+                width: "70rem",
                 display: "flex",
                 flexDirection: "column",
                 padding: "35px"
@@ -113,7 +115,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
             }}
             >
                 <Box alignSelf={"flex-start"} marginBottom={"20px"}>
-                    <Typography variant={"h5"}>Add Company:</Typography>
+                    <Typography variant={"h5"}>{props.isEdit ? "Edit Company:" : "Add Company:"}</Typography>
                 </Box>
                 <form onSubmit={handleSubmit}>
                     <Box sx={{
@@ -125,7 +127,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
                     }}>
 
                         <TextField onChange={handleNameChange} className="formData" type="text"
-                                   label="Company Name: " variant="outlined"
+                                   label="Company Name: " variant="outlined" disabled={props.isEdit}
                                    value={formName}
                                    required/>
                         <TextField onChange={handleEmailChange} className="formData" type="email"
