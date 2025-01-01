@@ -20,12 +20,6 @@ export function AllCompaniessComp(): JSX.Element {
     const pageSize = 12;
     const numOfPages = (Math.ceil(companies?.length / pageSize));
 
-    // useEffect(() => {
-    //     adminService.getAllCompanies()
-    //         .then(data => setCompanies(data))
-    //         .catch(err => console.log(err.response.data))
-    //
-    // }, []);
 
     useEffect(() => {
         adminService.getAllCompanies()

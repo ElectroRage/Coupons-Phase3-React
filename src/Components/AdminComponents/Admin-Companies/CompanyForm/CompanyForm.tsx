@@ -67,7 +67,7 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
 
     function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault()
-        const company = new Company(props.company!.id, formName, formEmail, formPassword)
+        const company = new Company(0, formName, formEmail, formPassword)
         if (props?.company) {
             company.id = props.company.id
             console.log(company)
