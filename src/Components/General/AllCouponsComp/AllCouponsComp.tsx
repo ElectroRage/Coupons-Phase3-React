@@ -98,9 +98,10 @@ export function AllCouponsComp(): JSX.Element {
                 marginTop: "50px",
                 marginBottom: "100px",
                 overflow: "unset",
-                justifySelf: "center"
+                justifySelf: "center",
+                textAlign:"center"
             }}>
-                <Typography variant={"h4"}>Published Coupons</Typography>
+                <Typography variant={"h4"}>Coupon Catalogue</Typography>
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
                     <Box>
                         <Select defaultValue={"all"} onChange={handleCategory}>

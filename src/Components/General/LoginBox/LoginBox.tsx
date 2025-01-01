@@ -54,8 +54,8 @@ export function LoginBox(): JSX.Element {
         authService.login(user)
             .then(token => {
                 const decoded = jwtDecode<jwtInfo>(token)
-                localStorage.token = token;
-                navigate("/" + clientType.toLowerCase() + "panel");
+                localStorage.token = "Bearer " + token;
+                navigate("/controlpanel");
             })
             .catch(err => alert("ERROR! " + err.response.data));
     }
@@ -69,7 +69,7 @@ export function LoginBox(): JSX.Element {
                     needs to redirect or have logout option
                 </div>
                 :
-                <Card sx={{width:"600px",height:"350px"}}>
+                <Card sx={{width: "600px", height: "350px"}}>
                     <CardContent sx={{
                         display: "flex",
                         justifyContent: "center",
@@ -78,21 +78,21 @@ export function LoginBox(): JSX.Element {
                         width: "100%",
                     }}>
                         <FormLabel sx={{fontSize: "24px"}}>Sign in</FormLabel>
-                        <Box sx={{marginTop:"25px"}}>
-                                <form onSubmit={sendRequest}>
-                                    <TextField required onChange={handleEmail} placeholder="Email*" type="email"/><br/>
-                                    <TextField required onChange={handlePassword} placeholder="Password*"
-                                               type="password"/><br/>
-                                    {/*<FormControlLabel control={<Checkbox/>} label="Remember me"/>*/}
-                                    <Select fullWidth value={clientType} onChange={handleClientType}>
-                                        <MenuItem value="" disabled>Account Type</MenuItem>
-                                        <MenuItem value="Administrator">Administrator</MenuItem>
-                                        <MenuItem value="Company">Company</MenuItem>
-                                        <MenuItem value="Customer">Customer</MenuItem>
-                                    </Select><br/>
-                                    <Button type="submit" size="large" variant="contained"
-                                            sx={{backgroundColor: "rebeccapurple"}}>Submit</Button>
-                                </form>
+                        <Box sx={{marginTop: "25px"}}>
+                            <form onSubmit={sendRequest}>
+                                <TextField required onChange={handleEmail} placeholder="Email*" type="email"/><br/>
+                                <TextField required onChange={handlePassword} placeholder="Password*"
+                                           type="password"/><br/>
+                                {/*<FormControlLabel control={<Checkbox/>} label="Remember me"/>*/}
+                                <Select fullWidth value={clientType} onChange={handleClientType}>
+                                    <MenuItem value="" disabled>Account Type</MenuItem>
+                                    <MenuItem value="Administrator">Administrator</MenuItem>
+                                    <MenuItem value="Company">Company</MenuItem>
+                                    <MenuItem value="Customer">Customer</MenuItem>
+                                </Select><br/>
+                                <Button type="submit" size="large" variant="contained"
+                                        sx={{backgroundColor: "rebeccapurple"}}>Submit</Button>
+                            </form>
                         </Box>
                     </CardContent>
                 </Card>

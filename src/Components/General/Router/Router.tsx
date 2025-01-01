@@ -1,6 +1,6 @@
 import "./Router.css";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {LoginBox} from "../../LoginPage/LoginBox/LoginBox";
+import {LoginBox} from "../LoginBox/LoginBox";
 import {AdminPage} from "../../AdminComponents/AdminPage/AdminPage";
 import {CompanyPanel} from "../../CompanyComponents/CompanyPanel/CompanyPanel";
 import React, {useEffect, useState} from "react";
@@ -9,7 +9,7 @@ import axios from "axios";
 import {PageNotFound} from "../PageNotFound/PageNotFound";
 import {HomePage} from "../HomePage/HomePage";
 import {CustomerPanel} from "../../CustomerComponents/CustomerPanel/CustomerPanel";
-import {PanelRouter} from "../../PanelRouter/PanelRouter";
+import {PanelRouter} from "../PanelRouter/PanelRouter";
 
 
 export function Router(): JSX.Element {
@@ -40,10 +40,7 @@ export function Router(): JSX.Element {
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="login" element={<LoginBox/>}/>
-                {/*<Route path="control" element={<PanelRouter/>}/>*/}
-                <Route path="administratorpanel" element={<AdminPage/>}/>
-                <Route path="companypanel" element={<CompanyPanel/>}/>
-                <Route path="customerpanel" element={<CustomerPanel/>}/>
+                <Route path="controlpanel" element={<PanelRouter/>}/>
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
 
