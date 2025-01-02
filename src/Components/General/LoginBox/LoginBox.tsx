@@ -53,7 +53,6 @@ export function LoginBox(): JSX.Element {
         const user = new User(email, password, clientType)
         authService.login(user)
             .then(token => {
-                const decoded = jwtDecode<jwtInfo>(token)
                 localStorage.token = "Bearer " + token;
                 navigate("/controlpanel");
             })
@@ -86,7 +85,7 @@ export function LoginBox(): JSX.Element {
                                 {/*<FormControlLabel control={<Checkbox/>} label="Remember me"/>*/}
                                 <Select fullWidth value={clientType} onChange={handleClientType}>
                                     <MenuItem value="" disabled>Account Type</MenuItem>
-                                    <MenuItem value="Administrator">Administrator</MenuItem>
+                                    <MenuItem value="Administrator">Admin</MenuItem>
                                     <MenuItem value="Company">Company</MenuItem>
                                     <MenuItem value="Customer">Customer</MenuItem>
                                 </Select><br/>

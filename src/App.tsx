@@ -17,6 +17,8 @@ function App() {
 
     };
 
+    const handleControlPanel = ()=> navigate("/controlpanel")
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -113,7 +115,10 @@ function App() {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem onClick={handleClose}>Control Panel</MenuItem>
+                                    <MenuItem onClick={()=>{
+                                        handleControlPanel()
+                                        handleClose()
+                                    }}>Control Panel</MenuItem>
                                     <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                                 </Menu>
                             </Box>

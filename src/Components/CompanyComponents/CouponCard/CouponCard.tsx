@@ -14,7 +14,7 @@ import {
     Paper,
     Typography
 } from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CompanyService} from "../../../Services/CompanyService";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -40,13 +40,25 @@ export function CouponCard(props: CouponCardProps) {
     const companyService = new CompanyService();
     const customerService = new CustomerService();
 
+    useEffect(() => {
+        try{
+            console.log(props.coupon.company.name)
+        }catch (err ){
+            console.log(err)
+        }
+
+
+
+
+    }, []);
+
 
     function purchaseCoupon() {
         if (window.confirm("Are you sure you want to purchase " + props.coupon.title + "?")) {
             if(localStorage.getItem("token")){
                 customerService.purchase(props.coupon)
                     .then(() =>
-                        alert(props.coupon.title + "was purchased successfully"))
+                        alert(props.coupon.title + " was purchased successfully"))
                     .catch(err => alert(err.response.data))
             }else{
                 alert("Please Login To Perform This Action")

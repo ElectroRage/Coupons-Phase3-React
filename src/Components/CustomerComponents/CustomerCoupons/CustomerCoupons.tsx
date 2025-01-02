@@ -126,7 +126,6 @@ export function CustomerCoupons(): JSX.Element {
                             <Typography>Price Range:</Typography>
 
                             <Slider sx={{right: 0, width: "300px"}}
-
                                     value={sliderValue}
                                     onChange={handleSliderChange}
                                     onChangeCommitted={handleCommit}

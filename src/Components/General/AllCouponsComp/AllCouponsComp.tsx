@@ -13,7 +13,11 @@ import {CustomerService} from "../../../Services/CustomerService";
 import {CouponCard} from "../../CompanyComponents/CouponCard/CouponCard";
 
 
-export function AllCouponsComp(): JSX.Element {
+interface AllCouponsCompProps {
+    customerCoupons?: Coupon[]
+}
+
+export function AllCouponsComp(props: AllCouponsCompProps): JSX.Element {
 
     const [coupons, setCoupons] = useState<Coupon[]>([])
     const [filteredCoupons, setFilteredCoupons] = useState<Coupon[]>([])
@@ -99,7 +103,7 @@ export function AllCouponsComp(): JSX.Element {
                 marginBottom: "100px",
                 overflow: "unset",
                 justifySelf: "center",
-                textAlign:"center"
+                textAlign: "center"
             }}>
                 <Typography variant={"h4"}>Coupon Catalogue</Typography>
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
@@ -142,6 +146,7 @@ export function AllCouponsComp(): JSX.Element {
                                 .map((c) => (
                                     <CouponCard
                                         isCustomer={true}
+                                        isPurchased={Boolean(props.customerCoupons?.some(coupon => coupon.id === c.id))}
                                         isUpdated={() => {
                                             setIsUpdated(true)
                                         }}
