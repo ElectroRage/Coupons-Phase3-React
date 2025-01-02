@@ -8,6 +8,7 @@ import {
     Card,
     Typography
 } from "@mui/material";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
 
 
 export function AllCompaniessComp(): JSX.Element {
@@ -27,7 +28,7 @@ export function AllCompaniessComp(): JSX.Element {
                 setCompanies(data)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => errorHandler(err))
 
 
     }, [isUpdated]);

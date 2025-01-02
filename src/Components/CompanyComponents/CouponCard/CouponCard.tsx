@@ -14,7 +14,7 @@ import {
     Paper,
     Typography
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {CompanyService} from "../../../Services/CompanyService";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,6 +22,9 @@ import {CouponForm} from "../CouponForm/CouponForm";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {CustomerService} from "../../../Services/CustomerService";
 import {useNavigate} from "react-router-dom";
+import {OwnedContext} from "../../General/HomePage/HomePage";
+import {toast} from "react-toastify";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 
 interface CouponCardProps {
@@ -36,18 +39,18 @@ export function CouponCard(props: CouponCardProps) {
 
     const [isDeleted, setIsDeleted] = useState<boolean>(false)
     const [toEdit, setToEdit] = useState<boolean>(false)
+    const [purchase, setPurchase] = useState<boolean>(false)
+    const ownedContext = useContext<Coupon[]>(OwnedContext!)
     const navigate = useNavigate()
     const companyService = new CompanyService();
     const customerService = new CustomerService();
 
     useEffect(() => {
-        try{
+        try {
             console.log(props.coupon.company.name)
-        }catch (err ){
+        } catch (err) {
             console.log(err)
         }
-
-
 
 
     }, []);
@@ -55,13 +58,16 @@ export function CouponCard(props: CouponCardProps) {
 
     function purchaseCoupon() {
         if (window.confirm("Are you sure you want to purchase " + props.coupon.title + "?")) {
-            if(localStorage.getItem("token")){
+            if (localStorage.getItem("token")) {
                 customerService.purchase(props.coupon)
-                    .then(() =>
-                        alert(props.coupon.title + " was purchased successfully"))
-                    .catch(err => alert(err.response.data))
-            }else{
-                alert("Please Login To Perform This Action")
+                    .then(() => {
+                        toast.success(props.coupon.title + " was purchased successfully")
+                        ownedContext.push(props.coupon)
+                        props.isUpdated()
+                    })
+                    .catch(err => errorHandler(err))
+            } else {
+                toast.warning("Please Login To Perform This Action")
                 navigate("/login")
             }
         }
@@ -72,10 +78,11 @@ export function CouponCard(props: CouponCardProps) {
         if (bool)
             companyService.deleteCoupon(props.coupon.id)
                 .then(data => {
-                    alert("coupon: " + props.coupon.id + " was deleted")
+                    toast.success("coupon: " + props.coupon.id + " was deleted")
                     setIsDeleted(true)
+                    props.isUpdated()
                 })
-                .catch(err => alert(err.response.data.message))
+                .catch(err => errorHandler(err))
 
     }
 
@@ -131,8 +138,6 @@ export function CouponCard(props: CouponCardProps) {
                                             variant={"h6"}>{props.coupon.title}</Typography>
 
                                 <Box sx={{justifyContent: "space-between", width: "345px", height: "85px"}}>
-                                    {/*<div>{props.coupon.category}</div>*/}
-                                    {/*/!*<div>{props.coupon.company.name}</div>*!/*/}
                                     <Box sx={{
                                         marginTop: "25px",
                                         width: "345px",
@@ -190,21 +195,42 @@ export function CouponCard(props: CouponCardProps) {
                                             {props.isPurchased ?
                                                 <Box><Typography sx={{marginRight: "10px"}}
                                                                  variant={"h6"}>Owned</Typography></Box> :
-                                                <Box >
-                                                    <IconButton>
-                                                        <ShoppingCartIcon  sx={{
-                                                            color:"white",
-                                                            backgroundColor:"green",
-                                                            padding:"5px",
-                                                            paddingLeft:"10px",
-                                                            paddingRight:"10px",
-                                                            borderRadius:"5px",
-                                                            position:"absolute",
-                                                            marginRight:"50px",
-                                                            marginTop:"5px",
+                                                <Box>
+                                                    {props.coupon.amount === 0 ?
+
+                                                        <IconButton disabled>
+                                                            <ShoppingCartIcon sx={{
+                                                                color: "white",
+                                                                backgroundColor: "gray",
+                                                                padding: "5px",
+                                                                paddingLeft: "10px",
+                                                                paddingRight: "10px",
+                                                                borderRadius: "5px",
+                                                                position: "absolute",
+                                                                marginRight: "50px",
+                                                                marginTop: "5px",
                                                             }}
-                                                                          onClick={purchaseCoupon}/>
-                                                    </IconButton>
+                                                            />
+                                                        </IconButton>
+
+                                                        :
+
+                                                        <IconButton>
+                                                            <ShoppingCartIcon sx={{
+                                                                color: "white",
+                                                                backgroundColor: "green",
+                                                                padding: "5px",
+                                                                paddingLeft: "10px",
+                                                                paddingRight: "10px",
+                                                                borderRadius: "5px",
+                                                                position: "absolute",
+                                                                marginRight: "50px",
+                                                                marginTop: "5px",
+                                                            }}
+                                                                              onClick={() => {
+                                                                                  purchaseCoupon()
+                                                                              }}/>
+                                                        </IconButton>}
                                                 </Box>}
                                         </Box> :
                                         <Box>

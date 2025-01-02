@@ -11,6 +11,9 @@ import {
 } from "@mui/material";
 import {CustomerService} from "../../../Services/CustomerService";
 import {CouponCard} from "../../CompanyComponents/CouponCard/CouponCard";
+import {CompanyContext} from "../../CompanyComponents/CompanyPanel/CompanyPanel";
+import {OwnedContext} from "../HomePage/HomePage";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 
 interface AllCouponsCompProps {
@@ -25,6 +28,7 @@ export function AllCouponsComp(props: AllCouponsCompProps): JSX.Element {
     const [cMax, setcMax] = useState<number>(0)
     const [sliderValue, setSilderValue] = useState(cMax);
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
+    const ownedContext = useContext<Coupon[]>(OwnedContext!)
     const customerService = new CustomerService();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -55,7 +59,7 @@ export function AllCouponsComp(props: AllCouponsCompProps): JSX.Element {
                 setSilderValue(temp)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => errorHandler(err))
 
 
     }, []);
@@ -146,9 +150,9 @@ export function AllCouponsComp(props: AllCouponsCompProps): JSX.Element {
                                 .map((c) => (
                                     <CouponCard
                                         isCustomer={true}
-                                        isPurchased={Boolean(props.customerCoupons?.some(coupon => coupon.id === c.id))}
+                                        isPurchased={Boolean(ownedContext.some(coupon => coupon.id === c.id))}
                                         isUpdated={() => {
-                                            setIsUpdated(true)
+                                            setIsUpdated(!isUpdated)
                                         }}
                                         key={c.id}
                                         coupon={c}

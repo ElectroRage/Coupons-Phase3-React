@@ -16,6 +16,8 @@ import {AdminService} from "../../../../Services/AdminService";
 import {Form} from "react-router-dom";
 import {CompanyCard} from "../CompanyCard/CompanyCard";
 import {Coupon} from "../../../../Models/Coupon";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
+import { toast } from "react-toastify";
 
 interface CompanyProps {
     company?: Company;
@@ -78,11 +80,10 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
                     if (props.onSubmit) {
                         props.onSubmit();
                     }
-                    alert(company.name + "Has Been Successfully Updated")
+                    toast.success(company.name + "Has Been Successfully Updated")
                 })
                 .catch(err => {
-                    console.log("potato 2")
-                    alert(err.response.message)
+                    errorHandler(err)
                 })
         } else {
 
@@ -90,11 +91,11 @@ export function CompanyForm(props: CompanyProps): JSX.Element {
                 .then((company) => {
                     setFormCompany(company)
                     setIsSubmit(true)
-                    alert(company.name + "Has Been Successfully Added.")
+                    toast.success(company.name + "Has Been Successfully Added.")
                     init();
                 })
                 .catch(err => {
-                    alert(err.response.data)
+                    errorHandler(err)
                 })
         }
 

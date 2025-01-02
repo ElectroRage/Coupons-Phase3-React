@@ -17,6 +17,8 @@ import authService from "../../../Services/AuthService";
 import {NavLink, useNavigate} from "react-router-dom";
 import {User} from "../../../Models/User";
 import {jwtDecode} from "jwt-decode";
+import {errorHandler} from "../../../Utils/ErrorHandler";
+import { toast } from "react-toastify";
 
 interface jwtInfo {
     user: string;
@@ -54,9 +56,10 @@ export function LoginBox(): JSX.Element {
         authService.login(user)
             .then(token => {
                 localStorage.token = "Bearer " + token;
-                navigate("/controlpanel");
+                navigate("/controlpanel")
+                toast.success("Login Sucessful")
             })
-            .catch(err => alert("ERROR! " + err.response.data));
+            .catch(err => errorHandler(err));
     }
 
 

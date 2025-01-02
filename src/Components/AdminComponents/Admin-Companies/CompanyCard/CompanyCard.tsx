@@ -13,6 +13,8 @@ import {AdminService} from "../../../../Services/AdminService";
 import {CompanyForm} from "../CompanyForm/CompanyForm"
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
+import { toast } from "react-toastify";
 
 interface CompanyCardProps {
     company?: Company,
@@ -32,11 +34,11 @@ export function CompanyCard(props: CompanyCardProps): JSX.Element {
         if (bool)
             adminService.deleteCompany(props.company!.id)
                 .then(data => {
-                    alert(props.company?.name + " was deleted")
+                    toast.success(props.company?.name + " was deleted")
                     setIsDeleted(true)
                     props.isUpdated();
                 })
-                .catch(err => alert(err.response.data.message))
+                .catch(err => errorHandler(err))
 
     }
 

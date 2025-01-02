@@ -7,6 +7,8 @@ import {CompanyForm} from "../../Admin-Companies/CompanyForm/CompanyForm";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {CustomerForm} from "../CustomerForm/CustomerForm";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
+import { toast } from "react-toastify";
 
 interface CustomerCardProps {
     isUpdated: () => void,
@@ -26,11 +28,11 @@ export function CustomerCard(props: CustomerCardProps): JSX.Element {
         if (bool)
             adminService.deleteCustomer(props.customer!.id)
                 .then(data => {
-                    alert(props.customer?.firstName + " " + props.customer?.lastName + " was deleted")
+                    toast.success(props.customer?.firstName + " " + props.customer?.lastName + " was deleted")
                     setIsDeleted(true)
                     props.isUpdated();
                 })
-                .catch(err => alert(err.response.data.message))
+                .catch(err => errorHandler(err))
 
     }
 

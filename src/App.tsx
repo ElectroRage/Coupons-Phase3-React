@@ -6,13 +6,15 @@ import AppBar from "@mui/material/AppBar";
 import {Box, Button, Grid, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
 import authService from "./Services/AuthService";
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { ToastContainer } from 'react-toastify';
+import {errorHandler} from "./Utils/ErrorHandler";
 
 function App() {
 
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        document.body.style.overflow = "hidden"
         setAnchorEl(event.currentTarget);
 
     };
@@ -24,7 +26,6 @@ function App() {
     };
 
 
-    //TODO: doesnt work on refresh when the client is at an unauthorized route
     useEffect(() => {
         // ternary of  if the type of navigation is equals to refresh, if so, set reload
         const navigateType = (performance.navigation?.type === 1 ? "reload" : "navigate")
@@ -46,11 +47,8 @@ function App() {
         }
     }, [navigate]);
 
-    useEffect(() => {
-        if (anchorEl===null) {
-            document.body.style.overflow = ""
-        }
-    }, [anchorEl]);
+
+
 
     function handleLogOut() {
         authService.logout(localStorage.getItem("token")!)
@@ -61,19 +59,18 @@ function App() {
                 }
             })
             .catch(err => {
-                    alert(err.response.data)
+                    errorHandler(err)
                     localStorage.clear()
                     navigate("/");
 
                 }
             )
-
-
     }
 
 
     return (
         <div className="App">
+            <ToastContainer/>
             <Box>
                 <AppBar sx={{
                     position: "static",
@@ -123,9 +120,7 @@ function App() {
                                 </Menu>
                             </Box>
 
-
                             :
-
 
                             <Button onClick={() => navigate("/login")} disableRipple color="inherit"
                                     sx={{textAlign: 'right'}}>
@@ -138,6 +133,7 @@ function App() {
                 </AppBar>
             </Box>
             <Router/>
+
         </div>
     )
         ;

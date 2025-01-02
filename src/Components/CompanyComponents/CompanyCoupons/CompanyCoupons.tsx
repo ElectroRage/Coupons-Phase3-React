@@ -14,6 +14,7 @@ import {
     SelectChangeEvent,
     Slider, Typography
 } from "@mui/material";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 
 export function CompanyCoupons(): JSX.Element {
@@ -54,7 +55,7 @@ export function CompanyCoupons(): JSX.Element {
                 setSilderValue(temp)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => errorHandler(err))
 
 
     }, [isUpdated]);

@@ -34,8 +34,6 @@ export function CompanyPanel(): JSX.Element {
             <Box>
                 <CompanyContext.Provider value={company}>
                     <Box sx={{width: 1100, display: "flex", justifyContent: "space-between"}}>
-                        <Typography>{"Company: " + company?.name}</Typography>
-                        <Typography>{"Email: " + company?.email}</Typography>
                     </Box>
                     <CouponForm/>
                     <CompanyCoupons/>

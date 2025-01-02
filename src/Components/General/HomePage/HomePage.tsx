@@ -1,20 +1,21 @@
 import "./HomePage.css";
 import {AllCouponsComp} from "../AllCouponsComp/AllCouponsComp";
-import React, {useEffect, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
 import {tokenProps} from "../PanelRouter/PanelRouter";
 import {Coupon} from "../../../Models/Coupon";
 import {CustomerService} from "../../../Services/CustomerService";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
+export const OwnedContext = createContext<Coupon[]>([]);
 
 export function HomePage(): JSX.Element {
 
     const [ownedCoupons, setOwnedCoupons] = useState<Coupon[]>([])
 
-
-        //retrieves user coupons to check below if they already owned. if they are
-        // itll say owned on the main allcouponscomp
-        useEffect(() => {
+    //retrieves user coupons to check below if they already owned. if they are
+    // it'll say owned on the main allcouponscomp
+    useEffect(() => {
         if (localStorage.getItem("token")) {
             try {
                 const token = localStorage.getItem("token");
@@ -26,7 +27,7 @@ export function HomePage(): JSX.Element {
                             setOwnedCoupons(cCoupons)
                             console.log(cCoupons)
                         })
-                        .catch(err => alert(err.response.data))
+                        .catch(err => errorHandler(err))
 
 
                 }
@@ -39,9 +40,10 @@ export function HomePage(): JSX.Element {
 
     return (
         <div className="HomePage">
-
-            {/*{This is where the customer can buy his coupons, so the purchase method will be used here}*/}
-            {ownedCoupons!.length > 0 ? <AllCouponsComp customerCoupons={ownedCoupons}/> : <AllCouponsComp/>}
+            <OwnedContext.Provider value={ownedCoupons}>
+                {/*{This is where the customer can buy his coupons, so the purchase method will be used here}*/}
+                {ownedCoupons!.length > 0 ? <AllCouponsComp customerCoupons={ownedCoupons}/> : <AllCouponsComp/>}
+            </OwnedContext.Provider>
         </div>
     );
 }

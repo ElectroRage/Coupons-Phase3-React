@@ -6,6 +6,7 @@ import {Box, Button, Card, Typography} from "@mui/material";
 import {CompanyCard} from "../../Admin-Companies/CompanyCard/CompanyCard";
 import {Customer} from "../../../../Models/Customer";
 import {CustomerCard} from "../CustomerCard/CustomerCard";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
 
 export function AllCustomersComp(): JSX.Element {
     const [customers, setCustomers] = useState<Customer[]>([]);
@@ -24,7 +25,7 @@ export function AllCustomersComp(): JSX.Element {
                 setCustomers(data)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.message))
+            .catch(err => errorHandler(err))
 
 
     }, [isUpdated]);

@@ -11,6 +11,8 @@ import {ChangeEvent, useEffect, useState} from "react";
 import {AdminService} from "../../../../Services/AdminService";
 import {CompanyCard} from "../../Admin-Companies/CompanyCard/CompanyCard";
 import {Customer} from "../../../../Models/Customer";
+import {errorHandler} from "../../../../Utils/ErrorHandler";
+import { toast } from "react-toastify";
 
 interface CustomerProps {
     customer?: Customer,
@@ -40,6 +42,14 @@ export function CustomerForm(props: CustomerProps): JSX.Element {
 
     }
 
+    useEffect(() => {
+        if(props.isEdit){
+            setCustomerFN(props.customer!.firstName)
+            setCustomrLN(props.customer!.lastName)
+            setEmail(props.customer!.email)
+        }
+    }, []);
+
 
     function handleFirstName(event: ChangeEvent<HTMLInputElement>) {
         setCustomerFN(event.target.value);
@@ -63,11 +73,11 @@ export function CustomerForm(props: CustomerProps): JSX.Element {
         adminService.addCustomer(customer)
             .then(data => {
                 setFormCustomer(data)
-                alert(customerFN + " " + customerLN + " Has Been Successfully Added.")
+                toast.success(customerFN + " " + customerLN + " Has Been Successfully Added.")
                 init()
                 setIsSubmit(true)
             })
-            .catch(err => alert(err.response.data))
+            .catch(err => errorHandler(err))
 
 
     }

@@ -14,11 +14,11 @@ import {CustomerService} from "../../../Services/CustomerService";
 import {CustomerContext} from "../CustomerPanel/CustomerPanel";
 import {CouponCard} from "../../CompanyComponents/CouponCard/CouponCard";
 import {Customer} from "../../../Models/Customer";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 
 export function CustomerCoupons(): JSX.Element {
 
-    const customer = useContext<Customer | null>(CustomerContext!)
     const [coupons, setCoupons] = useState<Coupon[]>([])
     const [filteredCoupons, setFilteredCoupons] = useState<Coupon[]>([])
     const [category, setCategory] = useState<string>("all")
@@ -27,6 +27,8 @@ export function CustomerCoupons(): JSX.Element {
     const [maxValue, setMaxValue] = useState(cMax)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
     const customerService = new CustomerService();
+    const customer = useContext<Customer | null>(CustomerContext!)
+
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const pageSize = 9;
@@ -56,7 +58,7 @@ export function CustomerCoupons(): JSX.Element {
                 setSilderValue(temp)
                 setIsUpdated(false)
             })
-            .catch(err => alert(err.response.data.message))
+            .catch(err => errorHandler(err))
 
 
     }, [isUpdated]);

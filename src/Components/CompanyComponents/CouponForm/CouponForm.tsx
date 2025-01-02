@@ -13,6 +13,8 @@ import {CompanyService} from "../../../Services/CompanyService";
 import {Coupon} from "../../../Models/Coupon";
 import {Company} from "../../../Models/Company";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
+import { toast } from "react-toastify";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 interface couponFormProps {
     coupon?: Coupon;
@@ -65,19 +67,19 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                     if (props.onSubmit) {
                         props.onSubmit();
                     }
-                    alert("Coupon " + coupon.id + " Has Been Successfully Updated")
+                    toast.success("Coupon " + coupon.id + " Has Been Successfully Updated")
                 })
-                .catch(err => alert( err.response.data))
+                .catch(err => errorHandler(err))
         } else {
 
             companyService.addCoupon(coupon)
                 .then((coupon) => {
                     setCoupon(coupon)
                     setIsSubmit(true)
-                    alert(coupon.title + " Has Been Successfully Added.")
+                    toast.success(coupon.title + " Has Been Successfully Added.")
                     initializeForm();
                 })
-                .catch(err => alert(err.response.data))
+                .catch(err => errorHandler(err))
         }
 
 
@@ -195,8 +197,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                     </FormControl>
                 </Card>
             </form>
-            {/*    </AccordionDetails>*/}
-            {/*</Accordion>*/}
         </div>
     );
 }
