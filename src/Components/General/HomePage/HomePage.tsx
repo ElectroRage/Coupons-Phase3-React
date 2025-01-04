@@ -13,8 +13,6 @@ export function HomePage(): JSX.Element {
 
     const [ownedCoupons, setOwnedCoupons] = useState<Coupon[]>([])
 
-    //retrieves user coupons to check below if they already owned. if they are
-    // it'll say owned on the main allcouponscomp
     useEffect(() => {
         if (localStorage.getItem("token")) {
             try {

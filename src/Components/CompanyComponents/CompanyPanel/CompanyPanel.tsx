@@ -17,9 +17,7 @@ export function CompanyPanel(): JSX.Element {
     useEffect(() => {
         companyService.getDetails()
             .then(c => {
-                const newCompany = new Company(c.id, c.name, c.email, "");
-                console.log(newCompany)
-                setCompany(newCompany)
+                setCompany(c)
             })
             .catch(err => {
                 console.log(err.response.data)
@@ -31,14 +29,16 @@ export function CompanyPanel(): JSX.Element {
     return (
 
         <div className="CompanyPanel">
-            <Box>
-                <CompanyContext.Provider value={company}>
-                    <Box sx={{width: 1100, display: "flex", justifyContent: "space-between"}}>
-                    </Box>
-                    <CouponForm/>
-                    <CompanyCoupons/>
-                </CompanyContext.Provider>
-            </Box>
+            {company ?
+                <Box>
+                    <CompanyContext.Provider value={company}>
+                        <CouponForm/>
+                        <CompanyCoupons/>
+                    </CompanyContext.Provider>
+                </Box>
+                :
+                <Typography variant={"h2"}>Fetching Data...</Typography>
+            }
         </div>
     )
         ;

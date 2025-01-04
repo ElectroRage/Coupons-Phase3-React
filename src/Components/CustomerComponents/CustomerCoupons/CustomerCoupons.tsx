@@ -99,7 +99,7 @@ export function CustomerCoupons(): JSX.Element {
     return (
         <div className="CustomerCoupons">
             <Card elevation={3} sx={{
-                height: 950,
+                height: 1000,
                 width: 1160,
                 padding: "25px",
                 marginTop: "50px",
@@ -159,7 +159,7 @@ export function CustomerCoupons(): JSX.Element {
                         <Box>
 
                             <Button variant="text" onClick={handlePrev}>{"<<"}</Button>
-                            <Typography variant="button">{currentPage} - {numOfPages}</Typography>
+                            <Typography variant="button">{currentPage} - {numOfPages >0 ? numOfPages:"1"} </Typography>
                             <Button variant="text" onClick={handleNext}>{">>"}</Button>
                         </Box>
                     </Box>

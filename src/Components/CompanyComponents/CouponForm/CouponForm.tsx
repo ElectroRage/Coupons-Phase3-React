@@ -1,7 +1,7 @@
 import "./CouponForm.css";
 import React, {ChangeEvent, useState, useEffect, useContext} from "react";
 import {
-   Box,
+    Box,
     Button, Card,
     FormControl,
     Grid, MenuItem,
@@ -13,7 +13,7 @@ import {CompanyService} from "../../../Services/CompanyService";
 import {Coupon} from "../../../Models/Coupon";
 import {Company} from "../../../Models/Company";
 import {CompanyContext} from "../CompanyPanel/CompanyPanel";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import {errorHandler} from "../../../Utils/ErrorHandler";
 
 interface couponFormProps {
@@ -31,7 +31,7 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     const [amount, setAmount] = useState<number>(0);
     const [price, setPrice] = useState<number>(0);
     const [image, setImage] = useState<string>("");
-    const [category, setCategory] = useState<string>("default")
+    const [category, setCategory] = useState<string>("Food")
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [coupon, setCoupon] = useState<Coupon | null>(null);
     const companyContext = useContext<Company | null>(CompanyContext!);
@@ -47,8 +47,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
             setPrice(props.coupon.price);
             setImage(props.coupon.image);
             setCategory(props.coupon.category);
-        } else {
-
         }
     }, [props?.coupon, coupon]);
 
@@ -56,30 +54,38 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault()
         console.log(companyContext)
-        const coupon = new Coupon(0, companyContext!, category, title,
+        const handleCoupon = new Coupon(0, companyContext!, category, title,
             description, new Date(start), new Date(end), amount, price, image)
         if (props?.coupon) {
-            coupon.id = props.coupon.id
-            companyService.updateCoupon(coupon)
-                .then(coupon => {
-                    setCoupon(coupon)
+            handleCoupon.id = props.coupon.id
+            handleCoupon.company = props.coupon.company
+            console.log(handleCoupon)
+            companyService.updateCoupon(handleCoupon)
+                .then(c => {
+                    setCoupon(c)
                     setIsSubmit(true)
                     if (props.onSubmit) {
                         props.onSubmit();
                     }
-                    toast.success("Coupon " + coupon.id + " Has Been Successfully Updated")
+                    toast.success("Coupon " + c.id + " Has Been Successfully Updated")
                 })
                 .catch(err => errorHandler(err))
         } else {
+            if (companyContext != null) {
+                companyService.addCoupon(handleCoupon)
+                    .then((c) => {
+                        setCoupon(c)
+                        console.log(c)
+                        setIsSubmit(true)
+                        toast.success(c.title + " Has Been Successfully Added.")
+                        initializeForm();
+                    })
+                    .catch(err => errorHandler(err))
+            } else {
+                errorHandler("Unable to add new Coupon:(Missing Context)")
+            }
 
-            companyService.addCoupon(coupon)
-                .then((coupon) => {
-                    setCoupon(coupon)
-                    setIsSubmit(true)
-                    toast.success(coupon.title + " Has Been Successfully Added.")
-                    initializeForm();
-                })
-                .catch(err => errorHandler(err))
+
         }
 
 
@@ -98,7 +104,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
         setCoupon(null);
 
     }
-
 
 
     function handleTitle(event: ChangeEvent<HTMLInputElement>) {
@@ -132,7 +137,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
     function handleCategory(event: SelectChangeEvent<string>) {
         setCategory(event.target.value)
     }
-
 
 
     return (

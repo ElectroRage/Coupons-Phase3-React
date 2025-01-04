@@ -39,26 +39,16 @@ export function CouponCard(props: CouponCardProps) {
 
     const [isDeleted, setIsDeleted] = useState<boolean>(false)
     const [toEdit, setToEdit] = useState<boolean>(false)
-    const [purchase, setPurchase] = useState<boolean>(false)
     const ownedContext = useContext<Coupon[]>(OwnedContext!)
     const navigate = useNavigate()
     const companyService = new CompanyService();
     const customerService = new CustomerService();
 
-    useEffect(() => {
-        try {
-            console.log(props.coupon.company.name)
-        } catch (err) {
-            console.log(err)
-        }
-
-
-    }, []);
-
 
     function purchaseCoupon() {
         if (window.confirm("Are you sure you want to purchase " + props.coupon.title + "?")) {
             if (localStorage.getItem("token")) {
+                console.log(props.coupon)
                 customerService.purchase(props.coupon)
                     .then(() => {
                         toast.success(props.coupon.title + " was purchased successfully")
@@ -114,7 +104,7 @@ export function CouponCard(props: CouponCardProps) {
                             }} coupon={props.coupon}/></Backdrop>
                         : null}
                     <Card elevation={3} sx={{
-                        margin: '10px', height: "255px", width: "345px"
+                        margin: '10px', height: "265px", width: "345px"
                     }}>
                         <CardActionArea>
                             <CardMedia
@@ -136,7 +126,6 @@ export function CouponCard(props: CouponCardProps) {
                             }}>
                                 <Typography sx={{left: 3, position: "absolute"}}
                                             variant={"h6"}>{props.coupon.title}</Typography>
-
                                 <Box sx={{justifyContent: "space-between", width: "345px", height: "85px"}}>
                                     <Box sx={{
                                         marginTop: "25px",
@@ -183,13 +172,26 @@ export function CouponCard(props: CouponCardProps) {
                                     justifyContent: "space-between",
                                     alignContent: "center"
                                 }}>
-                                    <Typography
-                                        sx={{color: "gray", marginLeft: "5px", marginTop: "15px"}}
-                                        variant="caption"
-                                    >
-                                        {/*Made By:{props.coupon.company.name}*/}
-                                        Expires {new Date(props.coupon.endDate).toLocaleDateString("en-GB")}
-                                    </Typography>
+                                    <Box sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        textAlign: "left",
+                                        marginTop: "18px",
+                                        marginBottom: "5px"
+                                    }}>
+                                        <Typography
+                                            sx={{
+                                                color: "gray",
+                                                marginLeft: "5px",
+                                                lineHeight: "1.2"
+                                            }}
+                                            variant="caption"
+                                        >
+                                            Made By:{props.coupon.company.name}<br/>
+                                            Expires {new Date(props.coupon.endDate).toLocaleDateString("en-GB")}
+                                        </Typography>
+
+                                    </Box>
 
                                     {props.isCustomer ? <Box>
                                             {props.isPurchased ?
@@ -215,7 +217,7 @@ export function CouponCard(props: CouponCardProps) {
 
                                                         :
 
-                                                        <IconButton>
+                                                        <IconButton onClick={purchaseCoupon}>
                                                             <ShoppingCartIcon sx={{
                                                                 color: "white",
                                                                 backgroundColor: "green",
@@ -227,9 +229,7 @@ export function CouponCard(props: CouponCardProps) {
                                                                 marginRight: "50px",
                                                                 marginTop: "5px",
                                                             }}
-                                                                              onClick={() => {
-                                                                                  purchaseCoupon()
-                                                                              }}/>
+                                                            />
                                                         </IconButton>}
                                                 </Box>}
                                         </Box> :

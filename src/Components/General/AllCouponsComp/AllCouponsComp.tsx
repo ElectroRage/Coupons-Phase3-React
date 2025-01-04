@@ -17,6 +17,7 @@ import {errorHandler} from "../../../Utils/ErrorHandler";
 
 
 interface AllCouponsCompProps {
+    //based on this list we will know what coupon to mark as owned, will only be used for a logged in customer.
     customerCoupons?: Coupon[]
 }
 
@@ -50,7 +51,7 @@ export function AllCouponsComp(props: AllCouponsCompProps): JSX.Element {
 
 
     useEffect(() => {
-        customerService.getGeneralCoupons()
+         customerService.getGeneralCoupons()
             .then(data => {
                 setCoupons(data)
                 setFilteredCoupons(data)

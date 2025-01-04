@@ -96,7 +96,7 @@ export function CompanyCoupons(): JSX.Element {
     return (
         <div className="CompanyCoupons">
             <Card elevation={3} sx={{
-                height: 950,
+                height: 1000,
                 width: 1160,
                 padding: "25px",
                 marginTop: "50px",
