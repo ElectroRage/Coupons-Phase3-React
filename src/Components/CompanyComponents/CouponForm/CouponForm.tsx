@@ -75,7 +75,6 @@ export function CouponForm(props?: couponFormProps): JSX.Element {
                 companyService.addCoupon(handleCoupon)
                     .then((c) => {
                         setCoupon(c)
-                        console.log(c)
                         setIsSubmit(true)
                         toast.success(c.title + " Has Been Successfully Added.")
                         initializeForm();

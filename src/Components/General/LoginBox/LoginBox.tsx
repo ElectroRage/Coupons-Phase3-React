@@ -16,7 +16,6 @@ import {ChangeEvent, useState} from "react";
 import authService from "../../../Services/AuthService";
 import {NavLink, useNavigate} from "react-router-dom";
 import {User} from "../../../Models/User";
-import {jwtDecode} from "jwt-decode";
 import {errorHandler} from "../../../Utils/ErrorHandler";
 import { toast } from "react-toastify";
 

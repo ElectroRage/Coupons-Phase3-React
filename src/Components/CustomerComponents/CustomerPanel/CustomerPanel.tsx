@@ -4,6 +4,7 @@ import {Customer} from "../../../Models/Customer";
 import {CustomerService} from "../../../Services/CustomerService";
 import {CustomerCoupons} from "../CustomerCoupons/CustomerCoupons";
 import {Box} from "@mui/material";
+import {errorHandler} from "../../../Utils/ErrorHandler";
 
 export const CustomerContext = createContext<Customer | null>(null)
 
@@ -19,7 +20,7 @@ export function CustomerPanel(): JSX.Element {
                 setCustomer(newCustomer)
                 console.log(newCustomer)
             })
-            .catch(err => console.log(err.response.data))
+            .catch(err => errorHandler(err))
 
     }, []);
     return (

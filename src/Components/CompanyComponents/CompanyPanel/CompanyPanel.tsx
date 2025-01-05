@@ -1,10 +1,10 @@
 import "./CompanyPanel.css";
 import {CouponForm} from "../CouponForm/CouponForm";
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import {Company} from "../../../Models/Company";
 import {CompanyService} from "../../../Services/CompanyService";
 import {CompanyCoupons} from "../CompanyCoupons/CompanyCoupons";
-import {Box, Card, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 export const CompanyContext = createContext<Company | null>(null);
 

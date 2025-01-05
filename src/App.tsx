@@ -6,23 +6,25 @@ import AppBar from "@mui/material/AppBar";
 import {Box, Button, Grid, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
 import authService from "./Services/AuthService";
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { ToastContainer } from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import {errorHandler} from "./Utils/ErrorHandler";
 
 function App() {
 
-    const navigate = useNavigate();
+    const appNavigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
+        console.log("anchor" + !Boolean(anchorEl))
 
     };
 
-    const handleControlPanel = ()=> navigate("/controlpanel")
+    const handleControlPanel = () => appNavigate("/controlpanel")
 
     const handleClose = () => {
         setAnchorEl(null);
+        console.log("anchor" + !Boolean(anchorEl))
     };
 
 
@@ -39,29 +41,33 @@ function App() {
                         bool => {
                             if (!bool) {
                                 localStorage.removeItem("token");
-                                navigate("/login");
+                                appNavigate("/login");
                             }
                         })
-                    .catch(err => console.log(err.response.data));
+                    .catch(err => errorHandler(err));
             }
         }
-    }, [navigate]);
+    }, [appNavigate]);
 
-
-
+    function handleLogin() {
+        setAnchorEl(null)
+        appNavigate("/login")
+    }
 
     function handleLogOut() {
         authService.logout(localStorage.getItem("token")!)
             .then(bool => {
                 if (bool) {
                     localStorage.clear()
-                    navigate("/");
+                    setAnchorEl(null);
+                    appNavigate("/");
                 }
             })
             .catch(err => {
                     errorHandler(err)
                     localStorage.clear()
-                    navigate("/");
+                    setAnchorEl(null);
+                    appNavigate("/");
 
                 }
             )
@@ -83,7 +89,7 @@ function App() {
                 }}>
 
                     <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
-                        <Box onClick={() => navigate("/")}>
+                        <Box onClick={() => appNavigate("/")}>
                             <Typography variant={'h3'}>Coupons Control Panel</Typography>
                         </Box>
 
@@ -104,36 +110,27 @@ function App() {
                                         vertical: 'bottom',
                                         horizontal: 'right',
                                     }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem onClick={()=>{
+                                    <MenuItem onClick={() => {
                                         handleControlPanel()
                                         handleClose()
                                     }}>Control Panel</MenuItem>
                                     <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                                 </Menu>
                             </Box>
-
                             :
-
-                            <Button onClick={() => navigate("/login")} disableRipple color="inherit"
+                            <Button onClick={handleLogin} disableRipple color="inherit"
                                     sx={{textAlign: 'right'}}>
                                 Login
                             </Button>
                         }
-
                     </Toolbar>
 
                 </AppBar>
             </Box>
             <Router/>
-
         </div>
     )
         ;
